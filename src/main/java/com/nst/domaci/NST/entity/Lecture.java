@@ -2,6 +2,7 @@ package com.nst.domaci.NST.entity;
 import com.nst.domaci.NST.entity.form.TeachingForm;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Lecture {
     @Id
     @GeneratedValue
