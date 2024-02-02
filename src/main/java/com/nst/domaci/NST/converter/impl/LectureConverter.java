@@ -3,7 +3,9 @@ package com.nst.domaci.NST.converter.impl;
 import com.nst.domaci.NST.converter.DtoEntityConverter;
 import com.nst.domaci.NST.dto.LectureDto;
 import com.nst.domaci.NST.entity.Lecture;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LectureConverter implements DtoEntityConverter<LectureDto, Lecture> {
 
     @Override
