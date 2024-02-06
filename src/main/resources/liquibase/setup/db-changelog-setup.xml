@@ -1,0 +1,63 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+
+    <changeSet id="create-academic-title" author="lana">
+        <sqlFile path="ddl/create-academic-title.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-education-title" author="lana">
+        <sqlFile path="ddl/create-education-title.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-scientific-field" author="lana">
+        <sqlFile path="ddl/create-scientific-field.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-department" author="lana">
+        <sqlFile path="ddl/create-department.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-member" author="lana">
+        <sqlFile path="ddl/create-member.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-subject" author="lana">
+        <sqlFile path="ddl/create-subject.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-engagement" author="lana">
+        <sqlFile path="ddl/create-engagement.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-lecture-plan" author="lana">
+        <sqlFile path="ddl/create-fund.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-lecture-schedule" author="lana">
+        <sqlFile path="ddl/create-lecture-schedule.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-lecture" author="lana">
+        <sqlFile path="ddl/create-lecture.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-academic-title-history" author="lana">
+        <sqlFile path="ddl/create-academic-title-history.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-leader-history" author="lana">
+        <sqlFile path="ddl/create-leader-history.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-secretary-history" author="lana">
+        <sqlFile path="ddl/create-secretary-history.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="create-department-fk" author="lana">
+        <sqlFile path="ddl/create-department-fk.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+</databaseChangeLog>
