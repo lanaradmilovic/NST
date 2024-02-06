@@ -56,6 +56,12 @@
 			<version>2.2.0</version>
 		</dependency>
 
+		<!-- LIQUIBASE CORE-->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
 
 	</dependencies>
 
