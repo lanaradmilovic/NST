@@ -1,0 +1,4 @@
+CREATE TABLE scientific_field (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(35) NOT NULL CHECK (LENGTH(name) >= 2 AND LENGTH(name) <= 35)
+);
