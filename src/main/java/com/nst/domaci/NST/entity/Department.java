@@ -22,12 +22,12 @@ public class Department {
     private Long id;
     @NotNull
     @NotEmpty(message = "Department name is mandatory")
-    @Size(min = 2, max = 10, message = "Department name must be between 2 and 10 characters long")
+    @Size(min = 2, max = 100, message = "Department name must be between 2 and 100 characters long")
     @Column
     private String name;
     @NotNull
     @NotEmpty(message = "Department short name is mandatory")
-    @Size(min = 2, max = 10, message = "Department short name must be between 1 and 6 characters long")
+    @Size(min = 2, max = 10, message = "Department short name must be between 1 and 10 characters long")
     @Column(name = "short_name", unique = true)
     private String shortName;
     @OneToOne(fetch = FetchType.EAGER)

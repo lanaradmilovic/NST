@@ -19,7 +19,7 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty(message = "Subject name is mandatory")
-    @Size(min = 2, max = 10, message = "Subject name is between 2 and 10 characters long")
+    @Size(min = 2, max = 50, message = "Subject name is between 2 and 50 characters long")
     private String name;
     private String espb;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
