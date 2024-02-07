@@ -28,13 +28,13 @@ public class Member {
     @Column(name = "lastname")
     private String lastName;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "academic_title", nullable = false)
+    @JoinColumn(name = "academic_title_id", nullable = false)
     private AcademicTitle academicTitle;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "education_title", nullable = false)
+    @JoinColumn(name = "education_title_id", nullable = false)
     private EducationTitle educationTitle;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "scientific_field", nullable = false)
+    @JoinColumn(name = "scientific_field_id", nullable = false)
     private ScientificField scientificField;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
