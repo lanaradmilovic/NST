@@ -1,6 +1,6 @@
 CREATE TABLE lecture (
-    id BIGINT PRIMARY KEY,
-    form VARCHAR(255),
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    form VARBINARY(255),
     engagement_id BIGINT,
     date_time TIMESTAMP,
     description VARCHAR(255),
