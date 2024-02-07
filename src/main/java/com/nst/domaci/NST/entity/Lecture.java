@@ -15,8 +15,9 @@ import java.time.LocalDateTime;
 @Builder
 public class Lecture {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Enumerated(EnumType.STRING)
     private TeachingForm form;
     @ManyToOne(fetch = FetchType.EAGER)
     private Engagement engagement;
