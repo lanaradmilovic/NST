@@ -34,10 +34,8 @@ public class EngagementServiceImpl implements EngagementService {
     }
 
     @Override
-    public List<EngagementDto> findAll() {
-        return engagementRepository.findAll()
-                .stream().map(entity -> engagementConverter.toDto(entity))
-                .collect(Collectors.toList());
+    public List<Engagement> findAll() {
+        return engagementRepository.findAll();
     }
 
     @Override
@@ -55,11 +53,11 @@ public class EngagementServiceImpl implements EngagementService {
     }
 
     @Override
-    public EngagementDto findById(Long id) {
+    public Engagement findById(Long id) {
         Optional<Engagement> result = engagementRepository.findById(id);
         if (result.isPresent()) {
             Engagement engagement = result.get();
-            return engagementConverter.toDto(engagement);
+            return engagement;
         } else {
             throw new ResourceNotFoundException("Engagement with ID = " + id + " does not exist.");
         }

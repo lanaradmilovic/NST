@@ -18,12 +18,12 @@ public class EngagementController {
         this.engagementService = engagementService;
     }
     @GetMapping("/engagements")
-    public ResponseEntity<List<EngagementDto>> findAll(){
+    public ResponseEntity<List<?>> findAll(){
         return new ResponseEntity<>(engagementService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/engagements/{id}")
-    public ResponseEntity<EngagementDto> findById(@PathVariable("id") Long id){
+    public ResponseEntity<?> findById(@PathVariable("id") Long id){
         return new ResponseEntity<>(engagementService.findById(id), HttpStatus.OK);
     }
     @GetMapping("/members/{id}/engagements")

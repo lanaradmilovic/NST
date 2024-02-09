@@ -1,16 +1,17 @@
 package com.nst.domaci.NST.service;
 
 import com.nst.domaci.NST.dto.EngagementDto;
+import com.nst.domaci.NST.entity.Engagement;
 
 import java.util.List;
 
 public interface EngagementService {
-    List<EngagementDto> findAll();
+    List<Engagement> findAll();
 
     List<EngagementDto> findAllBySubjectId(Long subjectId);
     List<EngagementDto> findAllByMemberId(Long memberId);
 
-    EngagementDto findById(Long id);
+    Engagement findById(Long id);
 
     EngagementDto save(EngagementDto engagementDto);
 

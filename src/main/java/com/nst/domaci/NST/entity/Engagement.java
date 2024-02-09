@@ -1,6 +1,8 @@
 package com.nst.domaci.NST.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.nst.domaci.NST.entity.form.TeachingForm;
+import com.nst.domaci.NST.serialization.EngagementSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +17,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table
+@JsonSerialize(using = EngagementSerializer.class)
 public class Engagement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
