@@ -38,26 +38,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberDto> findAll() {
-        return memberRepository
-                .findAll()
-                .stream().map(entity -> memberConverter.toDto(entity))
-                .collect(Collectors.toList());
+    public List<Member> findAll() {
+        return memberRepository.findAll();
     }
 
     @Override
-    public MemberDto findById(Long id) throws ResourceNotFoundException {
+    public Member findById(Long id) throws ResourceNotFoundException {
         Optional<Member> result = memberRepository.findById(id);
         if (result.isPresent()) {
             Member member = result.get();
-            return memberConverter.toDto(member);
+            return member;
         } else {
             throw new ResourceNotFoundException("Member with ID = " + id + " does not exist.");
         }
     }
 
     @Override
-    public List<MemberDto> findAllByDepartmentId(Long departmentId) throws ResourceNotFoundException{
+    public List<MemberDto> findAllByDepartmentId(Long departmentId) throws ResourceNotFoundException {
         departmentRepository.findById(departmentId); // checking if exists
         return memberRepository
                 .findAllByDepartmentId(departmentId)

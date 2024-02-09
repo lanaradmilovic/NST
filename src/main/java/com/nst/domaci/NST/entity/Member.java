@@ -1,5 +1,9 @@
 package com.nst.domaci.NST.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.nst.domaci.NST.serialization.DepartmentSerializer;
+import com.nst.domaci.NST.serialization.MemberSerializer;
+import com.nst.domaci.NST.service.impl.MemberServiceImpl;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -15,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonSerialize(using = MemberSerializer.class)
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
