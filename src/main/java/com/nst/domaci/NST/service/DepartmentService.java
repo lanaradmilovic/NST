@@ -1,15 +1,16 @@
 package com.nst.domaci.NST.service;
 
 import com.nst.domaci.NST.dto.DepartmentDto;
+import com.nst.domaci.NST.entity.Department;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface DepartmentService {
-    List<DepartmentDto> findAll();
+    List<Department> findAll();
 
-    DepartmentDto findById(Long id) throws ResourceNotFoundException;
+    Department findById(Long id) throws ResourceNotFoundException;
 
     DepartmentDto save(DepartmentDto departmentDto) throws EntityAlreadyExistsException;
 

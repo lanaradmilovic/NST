@@ -1,5 +1,7 @@
 package com.nst.domaci.NST.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.nst.domaci.NST.serialization.DepartmentSerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +17,7 @@ import java.util.List;
 @Entity
 @Table
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@JsonSerialize(using = DepartmentSerializer.class)
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -19,12 +19,12 @@ public class DepartmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartmentDto>> findAll() {
+    public ResponseEntity<List<?>> findAll() {
         return new ResponseEntity<>(departmentService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DepartmentDto> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(departmentService.findById(id), HttpStatus.OK);
     }
 

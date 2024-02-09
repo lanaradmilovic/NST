@@ -39,18 +39,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDto> findAll() {
-        return departmentRepository.findAll()
-                .stream().map(entity -> departmentConverter.toDto(entity))
-                .collect(Collectors.toList());
+    public List<Department> findAll() {
+        return departmentRepository.findAll();
     }
 
     @Override
-    public DepartmentDto findById(Long id) throws ResourceNotFoundException {
+    public Department findById(Long id) throws ResourceNotFoundException {
         Optional<Department> result = departmentRepository.findById(id);
         if (result.isPresent()) {
             Department department = result.get();
-            return departmentConverter.toDto(department);
+            return department;
         } else {
             throw new ResourceNotFoundException("Department with ID = " + id + " does not exist.");
         }
