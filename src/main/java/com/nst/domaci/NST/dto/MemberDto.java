@@ -21,12 +21,7 @@ public class MemberDto {
     private Long educationTitleId;
 
     private Long scientificFieldId;
-
-    @NotEmpty(message = "Member's first name is mandatory.")
-    @Size(min = 2, max = 25, message = "Member's name must be between 2 and 25 characters long.")
     private String firstName;
 
-    @NotEmpty(message = "Member's last name name is mandatory.")
-    @Size(min = 2, max = 25, message = "Member's last name must be between 2 and 25 characters long.")
     private String lastName;
 }

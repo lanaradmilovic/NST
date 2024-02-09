@@ -13,7 +13,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EducationTitleDto {
     private Long id;
-    @NotEmpty(message = "Education title name is mandatory")
-    @Size(min = 2, max = 35, message = "Education title name is between 2 and 35 characters long")
     private String name;
 }

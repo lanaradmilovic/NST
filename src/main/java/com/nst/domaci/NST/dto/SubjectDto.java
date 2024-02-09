@@ -10,9 +10,7 @@ import lombok.Data;
 @Builder
 public class SubjectDto {
     private Long id;
-    @NotEmpty(message = "Subject name is mandatory")
-    @Size(min = 2, max = 10, message = "Subject name is between 2 and 10 characters long")
     private String name;
-    private String espb;
+    private int espb;
     private Long departmentId;
 }

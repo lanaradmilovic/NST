@@ -15,13 +15,8 @@ import lombok.NoArgsConstructor;
 public class DepartmentDto {
     private Long id;
 
-    @NotNull
-    @NotEmpty(message = "Department name is mandatory")
-    @Size(min = 2, max = 10, message = "Department name must be between 2 and 10 characters long")
     private String name;
-    @NotNull
-    @NotEmpty(message = "Department short name is mandatory")
-    @Size(min = 2, max = 10, message = "Department short name must be between 1 and 6 characters long")
+
     private String shortName;
 
 }
