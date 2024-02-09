@@ -21,12 +21,12 @@ public class AcademicTitleHistoryController {
     }
 
     @GetMapping("/academic-title-histories")
-    public ResponseEntity<List<AcademicTitleHistoryDto>> findAll() {
+    public ResponseEntity<List<?>> findAll() {
         return new ResponseEntity<>(academicTitleHistoryService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/academic-title-histories/{id}")
-    public ResponseEntity<AcademicTitleHistoryDto> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(academicTitleHistoryService.findById(id), HttpStatus.OK);
     }
 

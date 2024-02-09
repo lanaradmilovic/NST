@@ -1,5 +1,7 @@
 package com.nst.domaci.NST.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.nst.domaci.NST.serialization.AcademicTitleHistorySerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 @Entity
 @Builder
 @Table(name = "academic_title_history")
+@JsonSerialize(using = AcademicTitleHistorySerializer.class)
 public class AcademicTitleHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

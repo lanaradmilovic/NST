@@ -23,10 +23,8 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
     }
 
     @Override
-    public List<AcademicTitleHistoryDto> findAll() {
-        return academicTitleRepository.findAll()
-                .stream().map(entity -> academicTitleConverter.toDto(entity))
-                .collect(Collectors.toList());
+    public List<AcademicTitleHistory> findAll() {
+        return academicTitleRepository.findAll();
     }
 
     @Override
@@ -37,11 +35,11 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
     }
 
     @Override
-    public AcademicTitleHistoryDto findById(Long id) {
+    public AcademicTitleHistory findById(Long id) {
         Optional<AcademicTitleHistory> result = academicTitleRepository.findById(id);
         if (result.isPresent()) {
             AcademicTitleHistory academicTitleHistory = result.get();
-            return academicTitleConverter.toDto(academicTitleHistory);
+            return result.get();
         } else {
             throw new ResourceNotFoundException("Academic title history with ID = " + id + " does not exist.");
         }
