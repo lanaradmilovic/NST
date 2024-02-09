@@ -18,7 +18,7 @@ public class SubjectController {
     }
 
     @GetMapping("/subjects")
-    public ResponseEntity<List<SubjectDto>> findAll() {
+    public ResponseEntity<List<?>> findAll() {
         return new ResponseEntity<>(subjectService.findAll(), HttpStatus.OK);
     }
 
@@ -29,7 +29,7 @@ public class SubjectController {
     }
 
     @GetMapping("/subjects/{id}")
-    public ResponseEntity<SubjectDto> findById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<>(subjectService.findById(id), HttpStatus.OK);
     }
 

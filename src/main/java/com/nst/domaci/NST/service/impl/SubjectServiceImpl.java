@@ -29,10 +29,8 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<SubjectDto> findAll() {
-        return subjectRepository.findAll()
-                .stream().map(entity -> subjectConverter.toDto(entity))
-                .collect(Collectors.toList());
+    public List<Subject> findAll() {
+        return subjectRepository.findAll();
     }
 
     @Override
@@ -43,10 +41,10 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public SubjectDto findById(Long id) {
+    public Subject findById(Long id) {
         Optional<Subject> result = subjectRepository.findById(id);
         if (result.isPresent()) {
-            return subjectConverter.toDto(result.get());
+            return result.get();
         } else {
             throw new ResourceNotFoundException("Subject with ID = " + id + " does not exist.");
         }
@@ -55,7 +53,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public SubjectDto save(SubjectDto subjectDto) {
         Subject subject = subjectConverter.toEntity(subjectDto);
-        Department department = departmentConverter.toEntity(departmentService.findById(subjectDto.getDepartmentId()));
+        Department department = departmentService.findById(subjectDto.getDepartmentId());
         subject.setDepartment(department);
         subject = subjectRepository.save(subject);
         return subjectConverter.toDto(subject);
@@ -66,7 +64,7 @@ public class SubjectServiceImpl implements SubjectService {
         Optional<Subject> result = subjectRepository.findById(subjectDto.getId());
         if (result.isPresent()) {
             Subject subject = result.get();
-            Department department = departmentConverter.toEntity(departmentService.findById(subjectDto.getDepartmentId()));
+            Department department = departmentService.findById(subjectDto.getDepartmentId());
             subject.setDepartment(department);
             subject.setEspb(subjectDto.getEspb());
             subject.setName(subjectDto.getName());

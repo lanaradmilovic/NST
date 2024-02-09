@@ -1,16 +1,17 @@
 package com.nst.domaci.NST.service;
 
 import com.nst.domaci.NST.dto.SubjectDto;
+import com.nst.domaci.NST.entity.Subject;
 
 import java.util.List;
 
 public interface SubjectService {
-    List<SubjectDto> findAll();
+    List<Subject> findAll();
 
     List<SubjectDto> findAllByDepartmentId(Long departmentId);
 
 
-    SubjectDto findById(Long id);
+    Subject findById(Long id);
 
     SubjectDto save(SubjectDto subjectDto);
 
