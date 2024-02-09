@@ -1,6 +1,8 @@
 package com.nst.domaci.NST.controller;
 
+import com.nst.domaci.NST.dto.LectureDto;
 import com.nst.domaci.NST.dto.LectureScheduleDto;
+import com.nst.domaci.NST.entity.LectureSchedule;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.LectureScheduleService;
 import com.nst.domaci.NST.service.impl.LectureScheduleServiceImpl;
@@ -21,14 +23,14 @@ public class LectureScheduleController {
     }
 
     @GetMapping("/lecture-schedules")
-    public ResponseEntity<List<LectureScheduleDto>> findAll() {
-        List<LectureScheduleDto> schedules = lectureScheduleService.findAll();
+    public ResponseEntity<List<?>> findAll() {
+        List<LectureSchedule> schedules = lectureScheduleService.findAll();
         return new ResponseEntity<>(schedules, HttpStatus.OK);
     }
 
     @GetMapping("/lecture-schedules/{id}")
-    public ResponseEntity<LectureScheduleDto> findById(@PathVariable Long id) throws ResourceNotFoundException {
-        LectureScheduleDto schedule = lectureScheduleService.findById(id);
+    public ResponseEntity<?> findById(@PathVariable Long id) throws ResourceNotFoundException {
+        LectureSchedule schedule = lectureScheduleService.findById(id);
         return new ResponseEntity<>(schedule, HttpStatus.OK);
     }
 
@@ -42,7 +44,17 @@ public class LectureScheduleController {
     @DeleteMapping("/lecture-schedules/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) throws ResourceNotFoundException {
         lectureScheduleService.delete(id);
-        return new ResponseEntity<>("Lecture schedule removed.",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Lecture schedule removed.", HttpStatus.NO_CONTENT);
     }
+
+//    @PostMapping("/lecture-schedules/{lectureScheduleId}/lectures")
+//    public ResponseEntity<Void> addLectureToSchedule(
+//            @PathVariable Long lectureScheduleId,
+//            @RequestParam Long lectureId) {
+//        lectureScheduleService.addLectureToSchedule(lectureScheduleId, lectureId);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//
+//    }
+
 }
 

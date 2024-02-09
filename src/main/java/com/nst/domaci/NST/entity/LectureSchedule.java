@@ -1,18 +1,19 @@
 package com.nst.domaci.NST.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.nst.domaci.NST.serialization.LectureScheduleSerializer;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 @Entity
 @Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "lecture_schedule")
+@JsonSerialize(using = LectureScheduleSerializer.class)
 public class LectureSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
