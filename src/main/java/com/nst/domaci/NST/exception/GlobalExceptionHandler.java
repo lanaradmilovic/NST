@@ -18,4 +18,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
         return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(DepartmentMismatchException.class)
+    private ResponseEntity<MyErrorDetails> handleDepartmentMismatchException (DepartmentMismatchException ex){
+        MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
+        return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(MemberNotInDepartmentException.class)
+    private ResponseEntity<MyErrorDetails> handleMemberNotInDepartmentException (MemberNotInDepartmentException ex){
+        MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
+        return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(RoleConflictException.class)
+    private ResponseEntity<MyErrorDetails> handleRoleConflictException (RoleConflictException ex){
+        MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
+        return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
+    }
 }
