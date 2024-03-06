@@ -70,7 +70,7 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
             academicTitle=  academicTitleRepository.save(academicTitle);
             return academicTitleConverter.toDto(academicTitle);
         }
-        throw new ResourceNotFoundException("Education title with ID = " + academicTitleDto.getId() + " does not exist.");
+        throw new ResourceNotFoundException("Academic title with ID = " + academicTitleDto.getId() + " does not exist.");
 
     }
 }

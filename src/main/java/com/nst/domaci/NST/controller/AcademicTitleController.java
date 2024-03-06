@@ -30,7 +30,7 @@ public class AcademicTitleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         academicTitleService.delete(id);
-        return new ResponseEntity<>("Academic title removed.", HttpStatus.OK);
+        return new ResponseEntity<>("Academic title with ID = " + id + " removed.", HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<AcademicTitleDto> save(@Valid @RequestBody AcademicTitleDto academicTitleDto){
