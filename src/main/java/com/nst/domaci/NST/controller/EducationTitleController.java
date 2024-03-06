@@ -19,8 +19,9 @@ public class EducationTitleController {
     public EducationTitleController(EducationTitleServiceImpl educationTitleService) {
         this.educationTitleService = educationTitleService;
     }
+
     @GetMapping
-    private ResponseEntity<List<EducationTitleDto>> findAll(){
+    private ResponseEntity<List<EducationTitleDto>> findAll() {
         List<EducationTitleDto> educationTitles = educationTitleService.findAll();
         return new ResponseEntity<>(educationTitles, HttpStatus.OK);
     }
@@ -32,13 +33,13 @@ public class EducationTitleController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<String> delete(@PathVariable("id") Long id) throws ResourceNotFoundException{
+    private ResponseEntity<String> delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
         educationTitleService.delete(id);
-        return new ResponseEntity<>("Education title removed.", HttpStatus.OK);
+        return new ResponseEntity<>("Education title with ID = " + id + " removed.", HttpStatus.OK);
     }
 
     @PostMapping
-    private ResponseEntity<EducationTitleDto> save(@Valid @RequestBody EducationTitleDto educationTitleDto) throws EntityAlreadyExistsException{
+    private ResponseEntity<EducationTitleDto> save(@Valid @RequestBody EducationTitleDto educationTitleDto) throws EntityAlreadyExistsException {
         EducationTitleDto educationTitleDto1 = educationTitleService.save(educationTitleDto);
         return new ResponseEntity<>(educationTitleDto1, HttpStatus.OK);
     }
