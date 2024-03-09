@@ -24,6 +24,10 @@
         <sqlFile path="dml/init-member.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <changeSet id="init-subject" author="lana">
+        <sqlFile path="dml/init-subject.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
     <changeSet id="init-academic-title-history" author="lana">
         <sqlFile path="dml/init-academic-title-history.sql" relativeToChangelogFile="true"/>
     </changeSet>
