@@ -39,14 +39,50 @@ public class EngagementServiceImpl implements EngagementService {
     }
 
     @Override
-    public List<EngagementDto> findAllByMemberId(Long memberId) {
+    public List<EngagementDto> findAllByMemberId(Long memberId) throws ResourceNotFoundException {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member with ID " + memberId + " not found."));
         return engagementRepository.findAllByMemberId(memberId)
                 .stream().map(entity -> engagementConverter.toDto(entity))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<EngagementDto> findAllBySubjectId(Long subjectId) {
+    public List<EngagementDto> findAllByMemberIdAndSubjectIdOrderByIdDesc(Long memberId, Long subjectId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member with ID " + memberId + " not found."));
+        subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Subject with ID " + subjectId + " not found."));
+        return engagementRepository.findAllByMemberIdAndSubjectIdOrderByIdDesc(memberId, subjectId)
+                .stream().map(entity -> engagementConverter.toDto(entity))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<EngagementDto> findAllByMemberIdAndYear(Long memberId, int year) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member with ID " + memberId + " not found."));
+        return engagementRepository.findAllByMemberIdAndYear(memberId, year)
+                .stream().map(entity -> engagementConverter.toDto(entity))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<EngagementDto> findAllBySubjectIdAndYear(Long subjectId, int year) {
+        subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Subject with ID " + subjectId + " not found."));
+        return engagementRepository.findAllBySubjectIdAndYear(subjectId, year)
+                .stream().map(entity -> engagementConverter.toDto(entity))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<EngagementDto> findAllBySubjectId(Long subjectId) throws ResourceNotFoundException {
+        subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Subject with ID " + subjectId + " not found."));
         return engagementRepository.findAllBySubjectId(subjectId)
                 .stream().map(entity -> engagementConverter.toDto(entity))
                 .collect(Collectors.toList());
@@ -67,9 +103,9 @@ public class EngagementServiceImpl implements EngagementService {
     public EngagementDto save(EngagementDto engagementDto) {
         Engagement engagement = engagementConverter.toEntity(engagementDto);
         Member member = memberRepository.findById(engagementDto.getMemberId())
-                .orElseThrow(() -> new EntityNotFoundException("Member with ID " + engagementDto.getMemberId() + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Member with ID " + engagementDto.getMemberId() + " not found."));
         Subject subject = subjectRepository.findById(engagementDto.getSubjectId())
-                .orElseThrow(() -> new EntityNotFoundException("Subject with ID " + engagementDto.getSubjectId() + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Subject with ID " + engagementDto.getSubjectId() + " not found."));
 
         // Ensure that member and subject are from same department
 
@@ -84,12 +120,11 @@ public class EngagementServiceImpl implements EngagementService {
 
         // Ensure that member is not already assigned to subject
 
-        List<Engagement> engagementList = engagementRepository.findAllByMemberIdAndSubjectId(member.getId(), subject.getId());
+        List<Engagement> engagementList = engagementRepository.findAllByMemberIdAndSubjectIdOrderByIdDesc(member.getId(), subject.getId());
 
         if (!engagementList.isEmpty()) {
             throw new EntityAlreadyExistsException("Member has already been assigned to this subject.");
         }
-
 
 
         Engagement newEngagement = engagementRepository.save(engagement);
