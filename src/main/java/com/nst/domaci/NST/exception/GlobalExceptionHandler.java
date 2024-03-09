@@ -33,4 +33,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
         return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(IllegalArgumentException.class)
+    private ResponseEntity<MyErrorDetails> handleIllegalArgumentException (IllegalArgumentException ex){
+        MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
+        return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
+    }
 }
