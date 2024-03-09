@@ -32,7 +32,7 @@
         <sqlFile path="ddl/create-engagement.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
-    <changeSet id="create-lecture-plan" author="lana">
+    <changeSet id="create-fund" author="lana">
         <sqlFile path="ddl/create-fund.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
