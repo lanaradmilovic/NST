@@ -7,6 +7,7 @@ import com.nst.domaci.NST.entity.AcademicTitle;
 import com.nst.domaci.NST.entity.AcademicTitleHistory;
 import com.nst.domaci.NST.entity.Engagement;
 import com.nst.domaci.NST.entity.Member;
+import com.nst.domaci.NST.entity.form.TeachingForm;
 
 import java.io.IOException;
 
@@ -37,8 +38,8 @@ public class MemberSerializer extends JsonSerializer<Member> {
         jsonGenerator.writeStringField("shortname", member.getDepartment().getShortName());
         jsonGenerator.writeEndObject();
 
-        jsonGenerator.writeArrayFieldStart("engagements");
         if (member.getEngagements() != null && !member.getEngagements().isEmpty()) {
+            jsonGenerator.writeArrayFieldStart("engagements");
             for (Engagement engagement : member.getEngagements()) {
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeNumberField("id", engagement.getId());
@@ -47,15 +48,22 @@ public class MemberSerializer extends JsonSerializer<Member> {
                 jsonGenerator.writeObjectFieldStart("subject");
                 jsonGenerator.writeStringField("name", engagement.getSubject().getName());
                 jsonGenerator.writeNumberField("espb", engagement.getSubject().getEspb());
+                jsonGenerator.writeArrayFieldStart("lectureForms");
+                if (engagement.getTeachingForm() != null){
+                    for (TeachingForm form : engagement.getTeachingForm()){
+                        jsonGenerator.writeString(form.name());
+                    }
+                }
+                jsonGenerator.writeEndArray();
                 jsonGenerator.writeEndObject();
 
                 jsonGenerator.writeEndObject();
             }
+            jsonGenerator.writeEndArray();
         }
-        jsonGenerator.writeEndArray();
 
-        jsonGenerator.writeArrayFieldStart("academicTitles");
         if (member.getAcademicTitleHistories() != null && !member.getAcademicTitleHistories().isEmpty()) {
+            jsonGenerator.writeArrayFieldStart("academicTitles");
             for (AcademicTitleHistory title : member.getAcademicTitleHistories()) {
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeNumberField("id", title.getId());
@@ -65,8 +73,8 @@ public class MemberSerializer extends JsonSerializer<Member> {
                 jsonGenerator.writeStringField("endDate", title.getEndDate() != null ? title.getEndDate().toString() : "");
                 jsonGenerator.writeEndObject();
             }
+            jsonGenerator.writeEndArray();
         }
-        jsonGenerator.writeEndArray();
 
         jsonGenerator.writeEndObject();
     }

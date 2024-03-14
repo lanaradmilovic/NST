@@ -35,8 +35,8 @@ public class SubjectSerializer extends JsonSerializer<Subject> {
             jsonGenerator.writeEndObject();
         }
 
-        jsonGenerator.writeArrayFieldStart("lecturers");
         if (subject.getEngagements()!=null && !subject.getEngagements().isEmpty()) {
+            jsonGenerator.writeArrayFieldStart("lecturers");
             for (Engagement e : subject.getEngagements()) {
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeStringField("lecturer", e.getMember().getFirstName() + " " + e.getMember().getLastName());
@@ -48,8 +48,9 @@ public class SubjectSerializer extends JsonSerializer<Subject> {
 
                 jsonGenerator.writeEndObject();
             }
+            jsonGenerator.writeEndArray();
+
         }
-        jsonGenerator.writeEndArray();
 
         LectureSchedule schedule = subject.getLectureScheduleCurrentYear();
         if (schedule!=null){
@@ -57,8 +58,8 @@ public class SubjectSerializer extends JsonSerializer<Subject> {
             jsonGenerator.writeNumberField("id", schedule.getId());
             jsonGenerator.writeNumberField("year", schedule.getYear());
 
-            jsonGenerator.writeArrayFieldStart("lectures");
-            if (schedule.getLectures()!=null){
+            if (schedule.getLectures()!=null && !schedule.getLectures().isEmpty()){
+                jsonGenerator.writeArrayFieldStart("lectures");
                 for (Lecture l : schedule.getLectures()){
                     jsonGenerator.writeStartObject();
                     jsonGenerator.writeStringField("form", l.getForm().name());
@@ -67,8 +68,8 @@ public class SubjectSerializer extends JsonSerializer<Subject> {
                     jsonGenerator.writeStringField("lecturer", l.getEngagement().getMember().getFirstName());
                     jsonGenerator.writeEndObject();
                 }
+                jsonGenerator.writeEndArray();
             }
-            jsonGenerator.writeEndArray();
             jsonGenerator.writeEndObject();
         }
 
