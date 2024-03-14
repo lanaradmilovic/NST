@@ -1,7 +1,6 @@
 package com.nst.domaci.NST.service;
 
 import com.nst.domaci.NST.dto.LectureScheduleDto;
-import com.nst.domaci.NST.entity.Lecture;
 import com.nst.domaci.NST.entity.LectureSchedule;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 
@@ -12,9 +11,9 @@ public interface LectureScheduleService {
 
     LectureSchedule findById(Long id) throws ResourceNotFoundException;
 
-    List<LectureScheduleDto> findAllBySubjectIdAndYear(Long subjectId, int year);
+    List<LectureSchedule> findAllBySubjectIdAndYear(Long subjectId, int year);
 
     void delete(Long id) throws ResourceNotFoundException;
 //    void addLectureToSchedule(Long lectureScheduleId, Long lectureId) throws ResourceNotFoundException;
-
+    LectureScheduleDto save(LectureScheduleDto lectureSchedule);
 }
