@@ -6,6 +6,7 @@ import com.nst.domaci.NST.dto.SubjectDto;
 import com.nst.domaci.NST.entity.Department;
 import com.nst.domaci.NST.entity.Subject;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
+import com.nst.domaci.NST.repository.DepartmentRepository;
 import com.nst.domaci.NST.repository.SubjectRepository;
 import com.nst.domaci.NST.service.SubjectService;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,12 @@ import java.util.stream.Collectors;
 public class SubjectServiceImpl implements SubjectService {
     private final SubjectConverter subjectConverter;
     private final SubjectRepository subjectRepository;
-    private final DepartmentServiceImpl departmentService;
-    private final DepartmentConverter departmentConverter;
+    private final DepartmentRepository departmentRepository;
 
-    public SubjectServiceImpl(SubjectConverter subjectConverter, SubjectRepository subjectRepository, DepartmentServiceImpl departmentService, DepartmentConverter departmentConverter) {
+    public SubjectServiceImpl(SubjectConverter subjectConverter, SubjectRepository subjectRepository, DepartmentRepository departmentRepository) {
         this.subjectConverter = subjectConverter;
         this.subjectRepository = subjectRepository;
-        this.departmentService = departmentService;
-        this.departmentConverter = departmentConverter;
+        this.departmentRepository = departmentRepository;
     }
 
     @Override
@@ -35,6 +34,8 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public List<SubjectDto> findAllByDepartmentId(Long departmentId) {
+        departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Department with ID = " + departmentId + " does not exist."));
         return subjectRepository.findAllByDepartmentId(departmentId)
                 .stream().map(entity -> subjectConverter.toDto(entity))
                 .collect(Collectors.toList());
@@ -53,7 +54,8 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public SubjectDto save(SubjectDto subjectDto) {
         Subject subject = subjectConverter.toEntity(subjectDto);
-        Department department = departmentService.findById(subjectDto.getDepartmentId());
+        Department department = departmentRepository.findById(subjectDto.getDepartmentId())
+                .orElseThrow(() -> new ResourceNotFoundException("Department with ID = " + subjectDto.getDepartmentId() + " does not exist."));
         subject.setDepartment(department);
         subject = subjectRepository.save(subject);
         return subjectConverter.toDto(subject);
@@ -64,7 +66,8 @@ public class SubjectServiceImpl implements SubjectService {
         Optional<Subject> result = subjectRepository.findById(subjectDto.getId());
         if (result.isPresent()) {
             Subject subject = result.get();
-            Department department = departmentService.findById(subjectDto.getDepartmentId());
+            Department department = departmentRepository.findById(subjectDto.getDepartmentId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Department with ID = " + subjectDto.getDepartmentId() + " does not exist."));
             subject.setDepartment(department);
             subject.setEspb(subjectDto.getEspb());
             subject.setName(subjectDto.getName());
