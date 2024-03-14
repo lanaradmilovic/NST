@@ -3,8 +3,10 @@ package com.nst.domaci.NST.service.impl;
 import com.nst.domaci.NST.converter.impl.AcademicTitleHistoryConverter;
 import com.nst.domaci.NST.dto.AcademicTitleHistoryDto;
 import com.nst.domaci.NST.entity.AcademicTitleHistory;
+import com.nst.domaci.NST.entity.Member;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.repository.AcademicTitleHistoryRepository;
+import com.nst.domaci.NST.repository.MemberRepository;
 import com.nst.domaci.NST.service.AcademicTitleHistoryService;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryService {
     private final AcademicTitleHistoryRepository academicTitleRepository;
     private final AcademicTitleHistoryConverter academicTitleConverter;
+    private final MemberRepository memberRepository;
 
-    public AcademicTitleHistoryServiceImpl(AcademicTitleHistoryRepository academicTitleRepository, AcademicTitleHistoryConverter academicTitleConverter) {
+    public AcademicTitleHistoryServiceImpl(AcademicTitleHistoryRepository academicTitleRepository, AcademicTitleHistoryConverter academicTitleConverter, MemberRepository memberRepository) {
         this.academicTitleRepository = academicTitleRepository;
         this.academicTitleConverter = academicTitleConverter;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -29,6 +33,8 @@ public class AcademicTitleHistoryServiceImpl implements AcademicTitleHistoryServ
 
     @Override
     public List<AcademicTitleHistoryDto> findAllByMemberId(Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with ID: " + memberId));
         return academicTitleRepository.findAllByMemberId(memberId)
                 .stream().map(entity -> academicTitleConverter.toDto(entity))
                 .collect(Collectors.toList());
