@@ -11,6 +11,7 @@ public class SecretaryHistoryConverter implements DtoEntityConverter<SecretaryHi
     public SecretaryHistoryDto toDto(SecretaryHistory secretaryHistory) {
         return SecretaryHistoryDto.builder()
                 .id(secretaryHistory.getId())
+                .departmentId(secretaryHistory.getDepartment().getId())
                 .memberId(secretaryHistory.getMember().getId())
                 .startDate(secretaryHistory.getStartDate())
                 .endDate(secretaryHistory.getEndDate())
