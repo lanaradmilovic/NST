@@ -1,5 +1,6 @@
 package com.nst.domaci.NST.service;
 
+import com.nst.domaci.NST.dto.FundDto;
 import com.nst.domaci.NST.dto.SubjectDto;
 import com.nst.domaci.NST.entity.Subject;
 
@@ -18,4 +19,5 @@ public interface SubjectService {
     SubjectDto update(SubjectDto subjectDto);
 
     void delete(Long id);
+    FundDto saveFund (Long subjectId, FundDto fundDto);
 }

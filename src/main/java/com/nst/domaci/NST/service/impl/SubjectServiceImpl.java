@@ -1,12 +1,17 @@
 package com.nst.domaci.NST.service.impl;
 
 import com.nst.domaci.NST.converter.impl.DepartmentConverter;
+import com.nst.domaci.NST.converter.impl.FundConverter;
 import com.nst.domaci.NST.converter.impl.SubjectConverter;
+import com.nst.domaci.NST.dto.FundDto;
 import com.nst.domaci.NST.dto.SubjectDto;
 import com.nst.domaci.NST.entity.Department;
+import com.nst.domaci.NST.entity.Fund;
 import com.nst.domaci.NST.entity.Subject;
+import com.nst.domaci.NST.exception.IllegalArgumentException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.repository.DepartmentRepository;
+import com.nst.domaci.NST.repository.FundRepository;
 import com.nst.domaci.NST.repository.SubjectRepository;
 import com.nst.domaci.NST.service.SubjectService;
 import org.springframework.stereotype.Service;
@@ -20,11 +25,13 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectConverter subjectConverter;
     private final SubjectRepository subjectRepository;
     private final DepartmentRepository departmentRepository;
+    private final FundConverter fundConverter;
 
-    public SubjectServiceImpl(SubjectConverter subjectConverter, SubjectRepository subjectRepository, DepartmentRepository departmentRepository) {
+    public SubjectServiceImpl(SubjectConverter subjectConverter, SubjectRepository subjectRepository, DepartmentRepository departmentRepository, FundConverter fundConverter) {
         this.subjectConverter = subjectConverter;
         this.subjectRepository = subjectRepository;
         this.departmentRepository = departmentRepository;
+        this.fundConverter = fundConverter;
     }
 
     @Override
@@ -85,4 +92,29 @@ public class SubjectServiceImpl implements SubjectService {
         findById(id);
         subjectRepository.deleteById(id);
     }
+
+    @Override
+    public FundDto saveFund(Long subjectId, FundDto fundDto) {
+        Optional<Subject> subjectOptional = subjectRepository.findById(subjectId);
+        if (subjectOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Subject with id = " + subjectId + " does not exist.");
+        }
+
+        Subject subject = subjectOptional.get();
+
+        // Ensure the subject is associated with the fund
+        if (subject.getFund() != null) {
+            throw new IllegalArgumentException("Subject with id = " + subjectId + " already has a fund associated with it.");
+        }
+
+        Fund fund = fundConverter.toEntity(fundDto);
+        fund.setSubject(subject);
+
+        subject.setFund(fund);
+
+        subjectRepository.save(subject);
+
+        return fundConverter.toDto(fund);
+    }
+
 }

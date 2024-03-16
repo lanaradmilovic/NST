@@ -1,6 +1,10 @@
 package com.nst.domaci.NST.controller;
 
+import com.nst.domaci.NST.converter.impl.SubjectConverter;
+import com.nst.domaci.NST.dto.FundDto;
 import com.nst.domaci.NST.dto.SubjectDto;
+import com.nst.domaci.NST.entity.Fund;
+import com.nst.domaci.NST.entity.Subject;
 import com.nst.domaci.NST.service.impl.SubjectServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,6 +64,12 @@ public class SubjectController {
         subjectService.delete(id);
         return new ResponseEntity<>("Subject with ID = " + id + " removed.", HttpStatus.OK);
     }
+    @Operation(summary = "Set fund to Subject.")
+    @PostMapping("/subjects/{subjectId}/fund")
+    public ResponseEntity<?> setFund(@PathVariable(value = "subjectId") Long subjectId, @RequestBody FundDto fundDto) {
+        return new ResponseEntity<>(subjectService.saveFund(subjectId, fundDto), HttpStatus.CREATED);
+    }
+
 
 
 }
