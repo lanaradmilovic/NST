@@ -1,5 +1,7 @@
-package com.nst.domaci.NST.exception;
+package com.nst.domaci.NST.advice;
 
+import com.nst.domaci.NST.exception.*;
+import com.nst.domaci.NST.exception.IllegalArgumentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,8 +35,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
         return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler(com.nst.domaci.NST.exception.IllegalArgumentException.class)
     private ResponseEntity<MyErrorDetails> handleIllegalArgumentException (IllegalArgumentException ex){
+        MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
+        return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(com.nst.domaci.NST.exception.SubjectMismatchException.class)
+    private ResponseEntity<MyErrorDetails> handleSubjectMismatchException (SubjectMismatchException ex){
         MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
         return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
     }
