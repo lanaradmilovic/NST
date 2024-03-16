@@ -4,10 +4,11 @@ import com.nst.domaci.NST.converter.impl.*;
 import com.nst.domaci.NST.dto.*;
 import com.nst.domaci.NST.entity.*;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
+import com.nst.domaci.NST.exception.IllegalArgumentException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.repository.*;
 import com.nst.domaci.NST.service.MemberService;
-import jakarta.persistence.EntityNotFoundException;
+import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +29,10 @@ public class MemberServiceImpl implements MemberService {
     private final AcademicTitleConverter academicTitleConverter;
     private final ScientificFieldConverter scientificFieldConverter;
     private final AcademicTitleHistoryRepository academicTitleHistoryRepository;
+    private final SecretaryHistoryRepository secretaryHistoryRepository;
+    private final LeaderHistoryRepository leaderHistoryRepository;
 
-    public MemberServiceImpl(MemberConverter memberConverter, MemberRepository memberRepository, DepartmentRepository departmentRepository, ScientificFieldRepository scientificFieldRepository, EducationTitleRepository educationTitleRepository, AcademicTitleRepository academicTitleRepository, AcademicTitleConverter academicTitleConverter, ScientificFieldConverter scientificFieldConverter, AcademicTitleHistoryRepository academicTitleHistoryRepository) {
+    public MemberServiceImpl(MemberConverter memberConverter, MemberRepository memberRepository, DepartmentRepository departmentRepository, ScientificFieldRepository scientificFieldRepository, EducationTitleRepository educationTitleRepository, AcademicTitleRepository academicTitleRepository, AcademicTitleConverter academicTitleConverter, ScientificFieldConverter scientificFieldConverter, AcademicTitleHistoryRepository academicTitleHistoryRepository, SecretaryHistoryRepository secretaryHistoryRepository, LeaderHistoryRepository leaderHistoryRepository) {
         this.memberConverter = memberConverter;
         this.memberRepository = memberRepository;
         this.departmentRepository = departmentRepository;
@@ -39,6 +42,8 @@ public class MemberServiceImpl implements MemberService {
         this.academicTitleConverter = academicTitleConverter;
         this.scientificFieldConverter = scientificFieldConverter;
         this.academicTitleHistoryRepository = academicTitleHistoryRepository;
+        this.secretaryHistoryRepository = secretaryHistoryRepository;
+        this.leaderHistoryRepository = leaderHistoryRepository;
     }
 
     @Override
@@ -69,23 +74,40 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void delete(Long id) throws ResourceNotFoundException {
-        findById(id);
+        Optional<Member> result = memberRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new ResourceNotFoundException("Member with ID = " + id + " not found");
+        }
+        Member member = result.get();
+
+        Member currentLeader = member.getDepartment().getCurrentLeader();
+        Member currentSecretary = member.getDepartment().getCurrentSecretary();
+
+        // check if member is currently secretary or leader of some department
+        if (member.equals(currentLeader)) {
+            throw new IllegalArgumentException("This member is currently leader at department: with ID = : " + member.getDepartment().getId());
+        }
+        if (member.equals(currentSecretary)) {
+            throw new IllegalArgumentException("This member is currently secretary at department with ID = : " + member.getDepartment().getId());
+        }
+
         memberRepository.deleteById(id);
     }
+
 
     @Override
     public MemberDto save(MemberDto memberDto) throws EntityAlreadyExistsException {
         Department department = departmentRepository.findById(memberDto.getDepartmentId())
-                .orElseThrow(() -> new EntityNotFoundException("Department with ID " + memberDto.getDepartmentId() + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Department with ID " + memberDto.getDepartmentId() + " not found."));
 
         AcademicTitle academicTitle = academicTitleRepository.findById(memberDto.getAcademicTitleId())
-                .orElseThrow(() -> new EntityNotFoundException("AcademicTitle with ID " + memberDto.getAcademicTitleId() + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("AcademicTitle with ID " + memberDto.getAcademicTitleId() + " not found."));
 
         EducationTitle educationTitle = educationTitleRepository.findById(memberDto.getEducationTitleId())
-                .orElseThrow(() -> new EntityNotFoundException("EducationTitle with ID " + memberDto.getEducationTitleId() + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("EducationTitle with ID " + memberDto.getEducationTitleId() + " not found."));
 
         ScientificField scientificField = scientificFieldRepository.findById(memberDto.getScientificFieldId())
-                .orElseThrow(() -> new EntityNotFoundException("ScientificField with ID " + memberDto.getScientificFieldId() + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("ScientificField with ID " + memberDto.getScientificFieldId() + " not found."));
 
         Member member = memberConverter.toEntity(memberDto);
         member.setAcademicTitle(academicTitle);
@@ -112,16 +134,29 @@ public class MemberServiceImpl implements MemberService {
             long newAcademicTitleId = memberDto.getAcademicTitleId();
 
             Department department = departmentRepository.findById(memberDto.getDepartmentId())
-                    .orElseThrow(() -> new EntityNotFoundException("Department with ID " + memberDto.getDepartmentId() + " not found."));
+                    .orElseThrow(() -> new ResourceNotFoundException("Department with ID " + memberDto.getDepartmentId() + " not found."));
+
+            // if department is about to be changed, check FIRST if member is currently leader or secretary at that department
+            if (!oldMember.getDepartment().equals(department)) { // changed
+                Member currentLeader = oldMember.getDepartment().getCurrentLeader();
+                Member currentSecretary = oldMember.getDepartment().getCurrentSecretary();
+
+                if (oldMember.equals(currentLeader)) {
+                    throw new IllegalArgumentException("This member is currently leader at department: with ID = : " + oldMember.getDepartment().getId());
+                }
+                if (oldMember.equals(currentSecretary)) {
+                    throw new IllegalArgumentException("This member is currently secretary at department with ID = : " + oldMember.getDepartment().getId());
+                }
+            }
 
             AcademicTitle academicTitle = academicTitleRepository.findById(memberDto.getAcademicTitleId())
-                    .orElseThrow(() -> new EntityNotFoundException("AcademicTitle with ID " + memberDto.getAcademicTitleId() + " not found."));
+                    .orElseThrow(() -> new ResourceNotFoundException("AcademicTitle with ID " + memberDto.getAcademicTitleId() + " not found."));
 
             EducationTitle educationTitle = educationTitleRepository.findById(memberDto.getEducationTitleId())
-                    .orElseThrow(() -> new EntityNotFoundException("EducationTitle with ID " + memberDto.getEducationTitleId() + " not found."));
+                    .orElseThrow(() -> new ResourceNotFoundException("EducationTitle with ID " + memberDto.getEducationTitleId() + " not found."));
 
             ScientificField scientificField = scientificFieldRepository.findById(memberDto.getScientificFieldId())
-                    .orElseThrow(() -> new EntityNotFoundException("ScientificField with ID " + memberDto.getScientificFieldId() + " not found."));
+                    .orElseThrow(() -> new ResourceNotFoundException("ScientificField with ID " + memberDto.getScientificFieldId() + " not found."));
 
             oldMember.setAcademicTitle(academicTitle);
             oldMember.setDepartment(department);

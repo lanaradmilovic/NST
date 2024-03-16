@@ -11,5 +11,10 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByFirstName(String firstName);
     List<Member> findAllByDepartmentId(Long departmentId);
+    List<Member> findAllByEducationTitleId(Long educationTitleId);
+    List<Member> findAllByAcademicTitleId(Long id);
+    List<Member> findAllByScientificFieldId(Long id);
+
+
 
 }
