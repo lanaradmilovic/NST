@@ -32,21 +32,30 @@ public class Member {
     @Size(min = 2, max = 25, message = "Member's last name must be between 2 and 25 characters long.")
     @Column(name = "lastname")
     private String lastName;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "academic_title_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "academic_title_id")
     private AcademicTitle academicTitle;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "education_title_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "education_title_id")
     private EducationTitle educationTitle;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "scientific_field_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "scientific_field_id")
     private ScientificField scientificField;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL ,orphanRemoval = true)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AcademicTitleHistory> academicTitleHistories;
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Engagement> engagements;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<SecretaryHistory> secretaryHistories;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<LeaderHistory> leaderHistories;
+
+    @OneToOne(mappedBy = "currentLeader", fetch = FetchType.LAZY)
+    private Department leaderDepartment;
+    @OneToOne(mappedBy = "currentSecretary", fetch = FetchType.LAZY)
+    private Department secretaryDepartment;
 }

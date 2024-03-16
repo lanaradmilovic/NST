@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -31,4 +32,6 @@ public class Engagement {
     private Subject subject;
     @Enumerated(EnumType.STRING)
     private Set<TeachingForm> teachingForm;
+    @OneToMany(mappedBy = "engagement", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Lecture> lectures;
 }

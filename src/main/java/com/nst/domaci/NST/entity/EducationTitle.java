@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,4 +23,6 @@ public class EducationTitle {
     @NotEmpty(message = "Education title name is mandatory")
     @Size(min = 2, max = 35, message = "Education title name is between 2 and 35 characters long")
     private String name;
+    @OneToMany(mappedBy = "educationTitle", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Member> members;
 }

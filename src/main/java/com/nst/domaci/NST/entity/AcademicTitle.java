@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +17,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "academic_title")
 public class AcademicTitle {
+    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Member> members;
+    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<AcademicTitleHistory> academicTitleHistories;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

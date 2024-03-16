@@ -30,7 +30,7 @@ public class Subject {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "department_id")
     private Department department;
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Engagement> engagements;
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "subject", cascade = CascadeType.ALL)
     private Fund fund;
