@@ -1,10 +1,8 @@
 package com.nst.domaci.NST.controller;
 
-import com.nst.domaci.NST.dto.LectureDto;
 import com.nst.domaci.NST.dto.LectureScheduleDto;
 import com.nst.domaci.NST.entity.LectureSchedule;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
-import com.nst.domaci.NST.service.LectureScheduleService;
 import com.nst.domaci.NST.service.impl.LectureScheduleServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -49,8 +47,9 @@ public class LectureScheduleController {
     @Operation(summary = "Delete a lecture schedule by ID")
     @DeleteMapping("/lecture-schedules/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) throws ResourceNotFoundException {
+        lectureScheduleService.findById(id);
         lectureScheduleService.delete(id);
-        return new ResponseEntity<>("Lecture schedule removed.", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Lecture schedule removed.", HttpStatus.OK);
     }
 
     //    @PostMapping("/lecture-schedules/{lectureScheduleId}/lectures")

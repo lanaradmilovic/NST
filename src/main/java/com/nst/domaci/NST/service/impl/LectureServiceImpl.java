@@ -7,6 +7,7 @@ import com.nst.domaci.NST.entity.Lecture;
 import com.nst.domaci.NST.entity.LectureSchedule;
 import com.nst.domaci.NST.entity.Subject;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
+import com.nst.domaci.NST.exception.SubjectMismatchException;
 import com.nst.domaci.NST.repository.*;
 import com.nst.domaci.NST.service.LectureService;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,15 @@ public class LectureServiceImpl implements LectureService {
                 .orElseThrow(() -> new ResourceNotFoundException("Engagement with ID = " + lectureDto.getEngagementId() + " does not exist."));
         LectureSchedule lectureSchedule = lectureScheduleRepository.findById(lectureDto.getLectureScheduleId())
                 .orElseThrow(() -> new ResourceNotFoundException("Lecture schedule with ID = " + lectureDto.getLectureScheduleId() + " does not exist."));
+        if (!engagement.getSubject().getId().equals(lectureSchedule.getSubject().getId())) {
+            throw new SubjectMismatchException(
+                    "Subject mismatch. Engagement's subject and Lecture Schedule's subject have different IDs. " +
+                            "Engagement's subject ID: " + engagement.getSubject().getId() + ", " +
+                            "Lecture Schedule's subject ID: " + lectureSchedule.getSubject().getId()
+            );
+        }
+
+
         lecture.setLectureSchedule(lectureSchedule);
         lecture.setEngagement(engagement);
         Lecture savedLecture = lectureRepository.save(lecture);

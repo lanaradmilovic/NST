@@ -11,22 +11,22 @@ import com.nst.domaci.NST.repository.LectureScheduleRepository;
 import com.nst.domaci.NST.repository.SubjectRepository;
 import com.nst.domaci.NST.service.LectureScheduleService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class LectureScheduleServiceImpl implements LectureScheduleService {
     private final LectureScheduleRepository lectureScheduleRepository;
     private final LectureScheduleConverter lectureScheduleConverter;
-    private final LectureRepository lectureRepository;
     private final SubjectRepository subjectRepository;
 
 
-    public LectureScheduleServiceImpl(LectureScheduleRepository lectureScheduleRepository, LectureScheduleConverter lectureScheduleConverter, LectureRepository lectureRepository, SubjectRepository subjectRepository) {
+    public LectureScheduleServiceImpl(LectureScheduleRepository lectureScheduleRepository, LectureScheduleConverter lectureScheduleConverter, SubjectRepository subjectRepository) {
         this.lectureScheduleRepository = lectureScheduleRepository;
         this.lectureScheduleConverter = lectureScheduleConverter;
-        this.lectureRepository = lectureRepository;
         this.subjectRepository = subjectRepository;
     }
 
@@ -49,8 +49,9 @@ public class LectureScheduleServiceImpl implements LectureScheduleService {
 
     @Override
     public void delete(Long id) throws ResourceNotFoundException {
-        findById(id);
-        lectureScheduleRepository.deleteById(id);
+        LectureSchedule schedule = findById(id);
+        schedule.getSubject().getLectureSchedules().remove(schedule);
+        lectureScheduleRepository.delete(schedule);
     }
 
     @Override
