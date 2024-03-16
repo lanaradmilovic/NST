@@ -2,9 +2,11 @@ package com.nst.domaci.NST.service.impl;
 
 import com.nst.domaci.NST.converter.impl.ScientificFieldConverter;
 import com.nst.domaci.NST.dto.ScientificFieldDto;
+import com.nst.domaci.NST.entity.Member;
 import com.nst.domaci.NST.entity.ScientificField;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
+import com.nst.domaci.NST.repository.MemberRepository;
 import com.nst.domaci.NST.repository.ScientificFieldRepository;
 import com.nst.domaci.NST.service.ScientificFieldService;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class ScientificFieldServiceImpl implements ScientificFieldService {
     private final ScientificFieldRepository scientificFieldRepository;
     private final ScientificFieldConverter scientificFieldConverter;
+    private final MemberRepository memberRepository;
 
-    public ScientificFieldServiceImpl(ScientificFieldRepository scientificFieldRepository, ScientificFieldConverter scientificFieldConverter) {
+    public ScientificFieldServiceImpl(ScientificFieldRepository scientificFieldRepository, ScientificFieldConverter scientificFieldConverter, MemberRepository memberRepository) {
         this.scientificFieldRepository = scientificFieldRepository;
         this.scientificFieldConverter = scientificFieldConverter;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -45,6 +49,20 @@ public class ScientificFieldServiceImpl implements ScientificFieldService {
     @Override
     public void delete(Long id) throws ResourceNotFoundException {
         findById(id);
+        List<Member> result = memberRepository.findAllByScientificFieldId(id);
+        if (!result.isEmpty()) {
+            for (Member member : result) {
+                Member currentLeader = member.getDepartment().getCurrentLeader();
+                Member currentSecretary = member.getDepartment().getCurrentSecretary();
+                // check if member is currently secretary or leader of some department
+                if (member.equals(currentLeader)) {
+                    member.getDepartment().setCurrentLeader(null);
+                }
+                if (member.equals(currentSecretary)) {
+                    member.getDepartment().setCurrentSecretary(null);
+                }
+            }
+        }
         scientificFieldRepository.deleteById(id);
     }
 

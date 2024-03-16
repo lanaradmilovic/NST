@@ -3,9 +3,11 @@ package com.nst.domaci.NST.service.impl;
 import com.nst.domaci.NST.converter.impl.AcademicTitleConverter;
 import com.nst.domaci.NST.dto.AcademicTitleDto;
 import com.nst.domaci.NST.entity.AcademicTitle;
+import com.nst.domaci.NST.entity.Member;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.repository.AcademicTitleRepository;
+import com.nst.domaci.NST.repository.MemberRepository;
 import com.nst.domaci.NST.service.AcademicTitleService;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class AcademicTitleServiceImpl implements AcademicTitleService {
     private final AcademicTitleRepository academicTitleRepository;
     private final AcademicTitleConverter academicTitleConverter;
+    private final MemberRepository memberRepository;
 
-    public AcademicTitleServiceImpl(AcademicTitleRepository academicTitleRepository, AcademicTitleConverter academicTitleConverter) {
+    public AcademicTitleServiceImpl(AcademicTitleRepository academicTitleRepository, AcademicTitleConverter academicTitleConverter, MemberRepository memberRepository) {
         this.academicTitleRepository = academicTitleRepository;
         this.academicTitleConverter = academicTitleConverter;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -45,6 +49,20 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
     @Override
     public void delete(Long id) throws ResourceNotFoundException {
         findById(id);
+        List<Member> result = memberRepository.findAllByAcademicTitleId(id);
+        if (!result.isEmpty()) {
+            for (Member member : result) {
+                Member currentLeader = member.getDepartment().getCurrentLeader();
+                Member currentSecretary = member.getDepartment().getCurrentSecretary();
+                // check if member is currently secretary or leader of some department
+                if (member.equals(currentLeader)) {
+                    member.getDepartment().setCurrentLeader(null);
+                }
+                if (member.equals(currentSecretary)) {
+                    member.getDepartment().setCurrentSecretary(null);
+                }
+            }
+        }
         academicTitleRepository.deleteById(id);
     }
 
