@@ -1,6 +1,7 @@
 package com.nst.domaci.NST.controller;
 
 import com.nst.domaci.NST.dto.LectureDto;
+import com.nst.domaci.NST.entity.Lecture;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.LectureService;
 import com.nst.domaci.NST.service.impl.LectureServiceImpl;
@@ -25,36 +26,36 @@ public class LectureController {
 
     @Operation(summary = "Retrieve all lectures")
     @GetMapping("/lectures")
-    public ResponseEntity<List<LectureDto>> findAll() {
-        List<LectureDto> lectures = lectureService.findAll();
+    public ResponseEntity<List<Lecture>> findAll() {
+        List<Lecture> lectures = lectureService.findAll();
         return new ResponseEntity<>(lectures, HttpStatus.OK);
     }
 
     @Operation(summary = "Retrieve a specific lecture by ID")
     @GetMapping("/lectures/{id}")
-    public ResponseEntity<LectureDto> findById(@PathVariable Long id) throws ResourceNotFoundException {
-        LectureDto lecture = lectureService.findById(id);
+    public ResponseEntity<Lecture> findById(@PathVariable Long id) throws ResourceNotFoundException {
+        Lecture lecture = lectureService.findById(id);
         return new ResponseEntity<>(lecture, HttpStatus.OK);
     }
 
     @Operation(summary = "Retrieve all lectures by engagement ID")
     @GetMapping("/engagements/{engagementId}/lectures")
-    public ResponseEntity<List<LectureDto>> findByEngagementId(@PathVariable Long engagementId) {
-        List<LectureDto> lectures = lectureService.findAllByEngagementId(engagementId);
+    public ResponseEntity<List<Lecture>> findByEngagementId(@PathVariable Long engagementId) {
+        List<Lecture> lectures = lectureService.findAllByEngagementId(engagementId);
         return new ResponseEntity<>(lectures, HttpStatus.OK);
     }
     @Operation(summary = "Retrieve all lectures by member ID and year")
     @GetMapping("/members/{memberId}/year/{year}/lectures")
-    public ResponseEntity<List<LectureDto>> findByEngagementMemberIdAndYear(
+    public ResponseEntity<List<Lecture>> findByEngagementMemberIdAndYear(
             @PathVariable Long memberId, @PathVariable Long year) {
-        List<LectureDto> lectures = lectureService.findAllByEngagementMemberIdAndEngagementYear(memberId, year);
+        List<Lecture> lectures = lectureService.findAllByEngagementMemberIdAndEngagementYear(memberId, year);
         return new ResponseEntity<>(lectures, HttpStatus.OK);
     }
     @Operation(summary = "Retrieve all lectures by subject ID and year")
     @GetMapping("/subjects/{subjectId}/year/{year}/lectures")
-    public ResponseEntity<List<LectureDto>> findByEngagementSubjectIdAndYear(
+    public ResponseEntity<List<Lecture>> findByEngagementSubjectIdAndYear(
             @PathVariable Long subjectId, @PathVariable Long year) {
-        List<LectureDto> lectures = lectureService.findAllByEngagementSubjectIdAndEngagementYear(subjectId, year);
+        List<Lecture> lectures = lectureService.findAllByEngagementSubjectIdAndEngagementYear(subjectId, year);
         return new ResponseEntity<>(lectures, HttpStatus.OK);
     }
 

@@ -8,6 +8,7 @@ import com.nst.domaci.NST.entity.LectureSchedule;
 import com.nst.domaci.NST.entity.Subject;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.exception.SubjectMismatchException;
+import com.nst.domaci.NST.exception.YearMismatch;
 import com.nst.domaci.NST.repository.*;
 import com.nst.domaci.NST.service.LectureService;
 import org.springframework.stereotype.Service;
@@ -37,44 +38,38 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    public List<LectureDto> findAll() {
-        return lectureRepository.findAll().stream()
-                .map(entity -> lectureConverter.toDto(entity))
-                .collect(Collectors.toList());
+    public List<Lecture> findAll() {
+        List<Lecture> lectures = lectureRepository.findAll();
+        return lectures;
     }
 
     @Override
-    public LectureDto findById(Long id) throws ResourceNotFoundException {
+    public Lecture findById(Long id) throws ResourceNotFoundException {
         Lecture lecture = lectureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lecture with ID " + id + " not found."));
-        return lectureConverter.toDto(lecture);
+        return lecture;
     }
 
     @Override
-    public List<LectureDto> findAllByEngagementId(Long engagementId) {
+    public List<Lecture> findAllByEngagementId(Long engagementId) {
         engagementRepository.findById(engagementId)
                 .orElseThrow(() -> new ResourceNotFoundException("Engagement with ID = " + engagementId + " not found."));
-        return lectureRepository.findAllByEngagementId(engagementId).stream()
-                .map(entity -> lectureConverter.toDto(entity))
-                .collect(Collectors.toList());
+        return lectureRepository.findAllByEngagementId(engagementId);
     }
 
     @Override
-    public List<LectureDto> findAllByEngagementMemberIdAndEngagementYear(Long memberId, Long year) {
+    public List<Lecture> findAllByEngagementMemberIdAndEngagementYear(Long memberId, Long year) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new ResourceNotFoundException("Member with ID = " + memberId + " not found."));
-        return lectureRepository.findAllByEngagementMemberIdAndEngagementYear(memberId, year).stream()
-                .map(entity -> lectureConverter.toDto(entity))
-                .collect(Collectors.toList());
+        return lectureRepository.findAllByEngagementMemberIdAndEngagementYear(memberId, year);
+
     }
 
     @Override
-    public List<LectureDto> findAllByEngagementSubjectIdAndEngagementYear(Long subjectId, Long year) {
+    public List<Lecture> findAllByEngagementSubjectIdAndEngagementYear(Long subjectId, Long year) {
         subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject with ID = " + subjectId + " not found."));
-        return lectureRepository.findAllByEngagementSubjectIdAndEngagementYear(subjectId, year).stream()
-                .map(entity -> lectureConverter.toDto(entity))
-                .collect(Collectors.toList());
+        return lectureRepository.findAllByEngagementSubjectIdAndEngagementYear(subjectId, year);
     }
 
 
@@ -95,8 +90,11 @@ public class LectureServiceImpl implements LectureService {
             throw new SubjectMismatchException(
                     "Subject mismatch. Engagement's subject and Lecture Schedule's subject have different IDs. " +
                             "Engagement's subject ID: " + engagement.getSubject().getId() + ", " +
-                            "Lecture Schedule's subject ID: " + lectureSchedule.getSubject().getId()
-            );
+                            "Lecture Schedule's subject ID: " + lectureSchedule.getSubject().getId());
+
+        }
+        if (engagement.getYear() != lectureSchedule.getYear()) {
+            throw new YearMismatch("Year mismatch. Engagement's year and Lecture Schedule's year have different values.");
         }
 
 

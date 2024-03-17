@@ -1,5 +1,7 @@
 package com.nst.domaci.NST.entity;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.nst.domaci.NST.entity.form.TeachingForm;
+import com.nst.domaci.NST.serialization.LectureSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonSerialize(using = LectureSerializer.class)
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
