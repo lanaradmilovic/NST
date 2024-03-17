@@ -6,7 +6,9 @@ import com.nst.domaci.NST.entity.*;
 import com.nst.domaci.NST.exception.DepartmentMismatchException;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
+import com.nst.domaci.NST.exception.YearMismatch;
 import com.nst.domaci.NST.repository.EngagementRepository;
+import com.nst.domaci.NST.repository.LectureRepository;
 import com.nst.domaci.NST.repository.MemberRepository;
 import com.nst.domaci.NST.repository.SubjectRepository;
 import com.nst.domaci.NST.service.EngagementService;
@@ -25,12 +27,14 @@ public class EngagementServiceImpl implements EngagementService {
     private final EngagementConverter engagementConverter;
     private final MemberRepository memberRepository;
     private final SubjectRepository subjectRepository;
+    private final LectureRepository lectureRepository;
 
-    public EngagementServiceImpl(EngagementRepository engagementRepository, EngagementConverter engagementConverter, MemberRepository memberRepository, SubjectRepository subjectRepository) {
+    public EngagementServiceImpl(EngagementRepository engagementRepository, EngagementConverter engagementConverter, MemberRepository memberRepository, SubjectRepository subjectRepository, LectureRepository lectureRepository) {
         this.engagementRepository = engagementRepository;
         this.engagementConverter = engagementConverter;
         this.memberRepository = memberRepository;
         this.subjectRepository = subjectRepository;
+        this.lectureRepository = lectureRepository;
     }
 
     @Override
@@ -140,6 +144,18 @@ public class EngagementServiceImpl implements EngagementService {
             throw new ResourceNotFoundException("Engagement with ID = " + engagementDto.getId() + " not found.");
         } else {
             Engagement engagement = result.get();
+            // Checking if year is about to be changed
+            // If so, check if engagement is assigned to some lecture
+            // If so, set lecture schedule to null because of the year mismatch
+            if (engagementDto.getYear() != engagement.getYear()) { // changed year
+                List<Lecture> lecture = lectureRepository.findAllByEngagementId(engagement.getId());
+                if (lecture != null && !lecture.isEmpty()) {
+                    for (Lecture l : lecture) {
+                        if (engagementDto.getYear() != l.getLectureSchedule().getYear())
+                            throw new YearMismatch("Year mismatch. Engagement's year does not match lecture schedule's year.");
+                    }
+                }
+            }
 
             // Check if year and teachingForm are not null before updating
             if (engagementDto.getYear() != null) {

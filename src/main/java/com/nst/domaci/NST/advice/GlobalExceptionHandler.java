@@ -45,4 +45,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
         return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(com.nst.domaci.NST.exception.YearMismatch.class)
+    private ResponseEntity<MyErrorDetails> handleYearMismatchException (YearMismatch ex){
+        MyErrorDetails myErrorDetails = new MyErrorDetails(ex.getMessage());
+        return  new ResponseEntity<>(myErrorDetails, HttpStatus.BAD_REQUEST);
+    }
 }
