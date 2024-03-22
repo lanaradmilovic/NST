@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -20,9 +17,11 @@ import java.time.LocalDate;
 @Builder
 @Table(name = "academic_title_history")
 @JsonSerialize(using = AcademicTitleHistorySerializer.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AcademicTitleHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")

@@ -3,11 +3,9 @@ package com.nst.domaci.NST.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,11 +14,13 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "academic_title")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AcademicTitle {
-    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Member> members;
-    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<AcademicTitleHistory> academicTitleHistories;
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

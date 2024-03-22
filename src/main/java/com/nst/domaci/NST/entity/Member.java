@@ -7,10 +7,7 @@ import com.nst.domaci.NST.service.impl.MemberServiceImpl;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -20,9 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @JsonSerialize(using = MemberSerializer.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
     @NotEmpty(message = "Member's first name is mandatory.")
     @Size(min = 2, max = 25, message = "Member's name must be between 2 and 25 characters long.")

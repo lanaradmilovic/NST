@@ -22,6 +22,7 @@ import java.util.Optional;
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
     @NotEmpty(message = "Subject name is mandatory")
     @Size(min = 2, max = 50, message = "Subject name is between 2 and 50 characters long")

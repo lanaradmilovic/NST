@@ -13,10 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "lecture_schedule")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @JsonSerialize(using = LectureScheduleSerializer.class)
 public class LectureSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "subject_id")
