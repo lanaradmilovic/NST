@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 public class EngagementDto {
     private Long id;
-    private Long year;
+    private Long engagementYear;
     private Long memberId;
     private Long subjectId;
     private Set<TeachingForm> teachingForm;

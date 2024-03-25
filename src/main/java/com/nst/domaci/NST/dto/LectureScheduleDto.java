@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class LectureScheduleDto {
     private Long id;
     private Long subjectId;
-    private int year;
+    private int scheduleYear;
 }
