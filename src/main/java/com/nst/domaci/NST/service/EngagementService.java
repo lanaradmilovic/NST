@@ -14,9 +14,9 @@ public interface EngagementService {
 
     List<EngagementDto> findAllByMemberIdAndSubjectIdOrderByIdDesc(Long memberId, Long subjectId);
 
-    List<EngagementDto> findAllByMemberIdAndYear(Long memberId, int year);
+    List<EngagementDto> findAllByMemberIdAndEngagementYear(Long memberId, int year);
 
-    List<EngagementDto> findAllBySubjectIdAndYear(Long subjectId, int year);
+    List<EngagementDto> findAllBySubjectIdAndEngagementYear(Long subjectId, int year);
 
     Engagement findById(Long id);
 

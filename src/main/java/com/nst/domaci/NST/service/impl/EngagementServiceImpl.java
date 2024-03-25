@@ -12,7 +12,6 @@ import com.nst.domaci.NST.repository.LectureRepository;
 import com.nst.domaci.NST.repository.MemberRepository;
 import com.nst.domaci.NST.repository.SubjectRepository;
 import com.nst.domaci.NST.service.EngagementService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,20 +63,20 @@ public class EngagementServiceImpl implements EngagementService {
     }
 
     @Override
-    public List<EngagementDto> findAllByMemberIdAndYear(Long memberId, int year) {
+    public List<EngagementDto> findAllByMemberIdAndEngagementYear(Long memberId, int year) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new ResourceNotFoundException("Member with ID " + memberId + " not found."));
-        return engagementRepository.findAllByMemberIdAndYear(memberId, year)
+        return engagementRepository.findAllByMemberIdAndEngagementYear(memberId, year)
                 .stream().map(entity -> engagementConverter.toDto(entity))
                 .collect(Collectors.toList());
 
     }
 
     @Override
-    public List<EngagementDto> findAllBySubjectIdAndYear(Long subjectId, int year) {
+    public List<EngagementDto> findAllBySubjectIdAndEngagementYear(Long subjectId, int year) {
         subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject with ID " + subjectId + " not found."));
-        return engagementRepository.findAllBySubjectIdAndYear(subjectId, year)
+        return engagementRepository.findAllBySubjectIdAndEngagementYear(subjectId, year)
                 .stream().map(entity -> engagementConverter.toDto(entity))
                 .collect(Collectors.toList());
 
@@ -147,19 +146,19 @@ public class EngagementServiceImpl implements EngagementService {
             // Checking if year is about to be changed
             // If so, check if engagement is assigned to some lecture
             // If so, set lecture schedule to null because of the year mismatch
-            if (engagementDto.getYear() != engagement.getYear()) { // changed year
+            if (engagementDto.getEngagementYear() != engagement.getEngagementYear()) { // changed year
                 List<Lecture> lecture = lectureRepository.findAllByEngagementId(engagement.getId());
                 if (lecture != null && !lecture.isEmpty()) {
                     for (Lecture l : lecture) {
-                        if (engagementDto.getYear() != l.getLectureSchedule().getYear())
+                        if (engagementDto.getEngagementYear() != l.getLectureSchedule().getScheduleYear())
                             throw new YearMismatch("Year mismatch. Engagement's year does not match lecture schedule's year.");
                     }
                 }
             }
 
             // Check if year and teachingForm are not null before updating
-            if (engagementDto.getYear() != null) {
-                engagement.setYear(engagementDto.getYear());
+            if (engagementDto.getEngagementYear() != null) {
+                engagement.setEngagementYear(engagementDto.getEngagementYear());
             }
 
             if (engagementDto.getTeachingForm() != null) {

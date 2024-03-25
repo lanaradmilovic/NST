@@ -3,6 +3,7 @@ package com.nst.domaci.NST.entity;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.nst.domaci.NST.serialization.LectureScheduleSerializer;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -22,8 +23,11 @@ public class LectureSchedule {
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "subject_id")
+    @NotNull
     private Subject subject;
-    private int year;
-    @OneToMany(mappedBy = "lectureSchedule",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @NotNull
+    @JoinColumn(name = "schedule_year")
+    private int scheduleYear;
+    @OneToMany(mappedBy = "lectureSchedule",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Lecture> lectures;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
     List<Lecture> findAllByEngagementId(Long engagementId);
-    List<Lecture> findAllByEngagementMemberIdAndEngagementYear(Long memberId, Long year);
-    List<Lecture> findAllByEngagementSubjectIdAndEngagementYear(Long subjectId, Long year);
+    List<Lecture> findAllByEngagementMemberIdAndEngagementEngagementYear(Long memberId, Long year);
+    List<Lecture> findAllByEngagementSubjectIdAndEngagementEngagementYear(Long subjectId, Long year);
 
 }

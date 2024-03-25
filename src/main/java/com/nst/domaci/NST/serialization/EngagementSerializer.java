@@ -14,7 +14,7 @@ public class EngagementSerializer extends JsonSerializer<Engagement> {
         jsonGenerator.writeStartObject();
 
         jsonGenerator.writeNumberField("id", engagement.getId());
-        jsonGenerator.writeNumberField("year", engagement.getYear());
+        jsonGenerator.writeNumberField("year", engagement.getEngagementYear());
 
         jsonGenerator.writeObjectFieldStart("member");
         jsonGenerator.writeNumberField("id", engagement.getMember().getId());

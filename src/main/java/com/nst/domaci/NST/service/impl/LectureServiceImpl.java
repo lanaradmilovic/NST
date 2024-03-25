@@ -5,7 +5,6 @@ import com.nst.domaci.NST.dto.LectureDto;
 import com.nst.domaci.NST.entity.Engagement;
 import com.nst.domaci.NST.entity.Lecture;
 import com.nst.domaci.NST.entity.LectureSchedule;
-import com.nst.domaci.NST.entity.Subject;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.exception.SubjectMismatchException;
 import com.nst.domaci.NST.exception.YearMismatch;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class LectureServiceImpl implements LectureService {
@@ -61,7 +59,7 @@ public class LectureServiceImpl implements LectureService {
     public List<Lecture> findAllByEngagementMemberIdAndEngagementYear(Long memberId, Long year) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new ResourceNotFoundException("Member with ID = " + memberId + " not found."));
-        return lectureRepository.findAllByEngagementMemberIdAndEngagementYear(memberId, year);
+        return lectureRepository.findAllByEngagementMemberIdAndEngagementEngagementYear(memberId, year);
 
     }
 
@@ -69,7 +67,7 @@ public class LectureServiceImpl implements LectureService {
     public List<Lecture> findAllByEngagementSubjectIdAndEngagementYear(Long subjectId, Long year) {
         subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject with ID = " + subjectId + " not found."));
-        return lectureRepository.findAllByEngagementSubjectIdAndEngagementYear(subjectId, year);
+        return lectureRepository.findAllByEngagementSubjectIdAndEngagementEngagementYear(subjectId, year);
     }
 
 
@@ -93,7 +91,7 @@ public class LectureServiceImpl implements LectureService {
                             "Lecture Schedule's subject ID: " + lectureSchedule.getSubject().getId());
 
         }
-        if (engagement.getYear() != lectureSchedule.getYear()) {
+        if (engagement.getEngagementYear() != lectureSchedule.getScheduleYear()) {
             throw new YearMismatch("Year mismatch. Engagement's year and Lecture Schedule's year have different values.");
         }
 

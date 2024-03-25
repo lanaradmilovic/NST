@@ -15,7 +15,7 @@ public class LectureScheduleSerializer extends JsonSerializer<LectureSchedule> {
         jsonGenerator.writeStartObject();
 
         jsonGenerator.writeNumberField("id", lectureSchedule.getId());
-        jsonGenerator.writeNumberField("year", lectureSchedule.getYear());
+        jsonGenerator.writeNumberField("year", lectureSchedule.getScheduleYear());
 
         jsonGenerator.writeObjectFieldStart("subject");
         jsonGenerator.writeNumberField("id", lectureSchedule.getSubject().getId());

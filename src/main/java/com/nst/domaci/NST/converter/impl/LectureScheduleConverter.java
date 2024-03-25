@@ -12,14 +12,14 @@ public class LectureScheduleConverter implements DtoEntityConverter<LectureSched
             return LectureScheduleDto.builder()
                     .id(lectureSchedule.getId())
                     .subjectId(lectureSchedule.getSubject().getId())
-                    .year(lectureSchedule.getYear())
+                    .scheduleYear(lectureSchedule.getScheduleYear())
                     .build();
         }
 
         @Override
         public LectureSchedule toEntity(LectureScheduleDto lectureScheduleDto) {
             return LectureSchedule.builder()
-                    .year(lectureScheduleDto.getYear())
+                    .scheduleYear(lectureScheduleDto.getScheduleYear())
                     .build();
         }
 }

@@ -23,7 +23,8 @@ public class Engagement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long year;
+    @JoinColumn(name = "engagement_year")
+    private Long engagementYear;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;

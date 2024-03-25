@@ -6,7 +6,6 @@ import com.nst.domaci.NST.entity.LectureSchedule;
 import com.nst.domaci.NST.entity.Subject;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
-import com.nst.domaci.NST.repository.LectureRepository;
 import com.nst.domaci.NST.repository.LectureScheduleRepository;
 import com.nst.domaci.NST.repository.SubjectRepository;
 import com.nst.domaci.NST.service.LectureScheduleService;
@@ -43,8 +42,8 @@ public class LectureScheduleServiceImpl implements LectureScheduleService {
     }
 
     @Override
-    public List<LectureSchedule> findAllBySubjectIdAndYear(Long subjectId, int year) {
-        return lectureScheduleRepository.findAllBySubjectIdAndYear(subjectId, year);
+    public List<LectureSchedule> findAllBySubjectIdAndScheduleYear(Long subjectId, int year) {
+        return lectureScheduleRepository.findAllBySubjectIdAndScheduleYear(subjectId, year);
     }
 
     @Override

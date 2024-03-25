@@ -13,7 +13,7 @@ public class EngagementConverter implements DtoEntityConverter<EngagementDto, En
                 .id(engagement.getId())
                 .memberId(engagement.getMember().getId())
                 .subjectId(engagement.getSubject().getId())
-                .year(engagement.getYear())
+                .engagementYear(engagement.getEngagementYear())
                 .teachingForm(engagement.getTeachingForm())
                 .build();
     }
@@ -21,7 +21,7 @@ public class EngagementConverter implements DtoEntityConverter<EngagementDto, En
     @Override
     public Engagement toEntity(EngagementDto engagementDto) {
         return Engagement.builder()
-                .year(engagementDto.getYear())
+                .engagementYear(engagementDto.getEngagementYear())
                 .teachingForm(engagementDto.getTeachingForm())
                 .build();
     }
