@@ -64,18 +64,18 @@ public class EngagementController {
             description = "Fetches a list of engagements associated with the specified member based on the provided member ID and year."
     )
     @GetMapping("/members/{memberId}/year/{year}/engagements")
-    public ResponseEntity<List<EngagementDto>> findAllByMemberIdAndYear(@PathVariable("memberId") Long memberId,
+    public ResponseEntity<List<EngagementDto>> findAllByMemberIdAndEngagementYear(@PathVariable("memberId") Long memberId,
                                                                         @PathVariable("year") int year) {
-        return new ResponseEntity<>(engagementService.findAllByMemberIdAndYear(memberId, year), HttpStatus.OK);
+        return new ResponseEntity<>(engagementService.findAllByMemberIdAndEngagementYear(memberId, year), HttpStatus.OK);
     }
 
     @Operation(
             summary = "Retrieve Engagements by Subject ID and Year",
             description = "Fetches a list of engagements associated with the specified subject based on the provided subject ID and year."
     )@GetMapping("/subject/{subjectId}/year/{year}/engagements")
-    public ResponseEntity<List<EngagementDto>> findAllBySubjectIdAndYear(@PathVariable("subjectId") Long subjectId,
+    public ResponseEntity<List<EngagementDto>> findAllBySubjectIdAndEngagementYear(@PathVariable("subjectId") Long subjectId,
                                                                         @PathVariable("year") int year) {
-        return new ResponseEntity<>(engagementService.findAllBySubjectIdAndYear(subjectId, year), HttpStatus.OK);
+        return new ResponseEntity<>(engagementService.findAllBySubjectIdAndEngagementYear(subjectId, year), HttpStatus.OK);
     }
 
     @Operation(summary = "Delete Engagement entity by id.")

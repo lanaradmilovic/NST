@@ -1,6 +1,8 @@
 package com.nst.domaci.NST.controller;
 
 import com.nst.domaci.NST.dto.DepartmentDto;
+import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
+import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.impl.DepartmentServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,26 +32,42 @@ public class DepartmentController {
     @Operation(summary = "Retrieve Department entity by id.")
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(departmentService.findById(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(departmentService.findById(id), HttpStatus.OK);
+        }catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @Operation(summary = "Delete Department entity by id.")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        departmentService.delete(id);
-        return new ResponseEntity<>("Department with ID = " + id + " removed.", HttpStatus.OK);
+        try {
+            departmentService.delete(id);
+            return new ResponseEntity<>("Department with ID = " + id + " removed.", HttpStatus.OK);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @Operation(summary = "Generate a new Department entity.")
     @PostMapping
     public ResponseEntity<DepartmentDto> save(@Valid @RequestBody DepartmentDto departmentDto) {
-        return new ResponseEntity<>(departmentService.save(departmentDto), HttpStatus.OK);
+       try {
+           return new ResponseEntity<>(departmentService.save(departmentDto), HttpStatus.OK);
+       } catch (EntityAlreadyExistsException exception) {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+       }
     }
 
     @Operation(summary = "Modify Department entity.")
     @PutMapping
     public ResponseEntity<DepartmentDto> update(@Valid @RequestBody DepartmentDto departmentDto) {
-        return new ResponseEntity<>(departmentService.update(departmentDto), HttpStatus.NO_CONTENT);
+        try {
+            return new ResponseEntity<>(departmentService.update(departmentDto), HttpStatus.NO_CONTENT);
+        } catch (ResourceNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @Operation(summary = "Set Department Leader.",
@@ -58,8 +76,12 @@ public class DepartmentController {
     public ResponseEntity<DepartmentDto> setDepartmentLeader(
             @PathVariable("departmentId") Long departmentId,
             @PathVariable("memberId") Long memberId) {
-        departmentService.setLeader(departmentId, memberId);
-        return ResponseEntity.ok().build();
+        try {
+            departmentService.setLeader(departmentId, memberId);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @Operation(summary = "Set Department Secretary.",
@@ -68,8 +90,12 @@ public class DepartmentController {
     public ResponseEntity<?> setDepartmentSecretary(
             @PathVariable("departmentId") Long departmentId,
             @PathVariable("memberId") Long memberId) {
-        departmentService.setSecretary(departmentId, memberId);
-        return ResponseEntity.ok().build();
+        try {
+            departmentService.setSecretary(departmentId, memberId);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
 }

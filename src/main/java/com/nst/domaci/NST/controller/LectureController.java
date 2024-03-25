@@ -46,7 +46,7 @@ public class LectureController {
     }
     @Operation(summary = "Retrieve all lectures by member ID and year")
     @GetMapping("/members/{memberId}/year/{year}/lectures")
-    public ResponseEntity<List<Lecture>> findByEngagementMemberIdAndYear(
+    public ResponseEntity<List<Lecture>> findByEngagementMemberIdAndEngagementYear(
             @PathVariable Long memberId, @PathVariable Long year) {
         List<Lecture> lectures = lectureService.findAllByEngagementMemberIdAndEngagementYear(memberId, year);
         return new ResponseEntity<>(lectures, HttpStatus.OK);

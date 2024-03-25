@@ -40,7 +40,7 @@ public class LectureScheduleController {
     @GetMapping("/subject/{subjectId}/year/{year}/lecture-schedules")
     public ResponseEntity<List<LectureSchedule>> findBySubjectIdAndYear(
             @PathVariable Long subjectId, @PathVariable int year) {
-        List<LectureSchedule> schedules = lectureScheduleService.findAllBySubjectIdAndYear(subjectId, year);
+        List<LectureSchedule> schedules = lectureScheduleService.findAllBySubjectIdAndScheduleYear(subjectId, year);
         return new ResponseEntity<>(schedules, HttpStatus.OK);
     }
 

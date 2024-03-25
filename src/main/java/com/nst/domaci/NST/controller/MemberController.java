@@ -5,6 +5,7 @@ import com.nst.domaci.NST.converter.impl.MemberConverter;
 import com.nst.domaci.NST.converter.impl.ScientificFieldConverter;
 import com.nst.domaci.NST.dto.*;
 import com.nst.domaci.NST.entity.Member;
+import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.impl.AcademicTitleServiceImpl;
 import com.nst.domaci.NST.service.impl.MemberServiceImpl;
 import com.nst.domaci.NST.service.impl.ScientificFieldServiceImpl;
@@ -79,10 +80,14 @@ public class MemberController {
     )
     @PutMapping("/members/{memberId}/academicTitle")
     public ResponseEntity<?> updateAcademicTitle(@PathVariable("memberId") long memberId, @RequestBody PromoteMemberDto promoteMemberDto) {
-        MemberDto memberDto = memberConverter.toDto(memberService.findById(memberId));
-        ScientificFieldDto scientificFieldDto = scientificFieldService.findById(promoteMemberDto.getScientificFieldId());
-        AcademicTitleDto academicTitleDto = academicTitleService.findById(promoteMemberDto.getAcademicTitleId());
-        return new ResponseEntity<>(memberService.updateAcademicTitle(memberDto, academicTitleDto, scientificFieldDto), HttpStatus.OK);
-    }
+        try {
+            MemberDto memberDto = memberConverter.toDto(memberService.findById(memberId));
+            ScientificFieldDto scientificFieldDto = scientificFieldService.findById(promoteMemberDto.getScientificFieldId());
+            AcademicTitleDto academicTitleDto = academicTitleService.findById(promoteMemberDto.getAcademicTitleId());
+            return new ResponseEntity<>(memberService.updateAcademicTitle(memberDto, academicTitleDto, scientificFieldDto), HttpStatus.OK);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+       }
 
 }
