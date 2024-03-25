@@ -34,7 +34,7 @@ public class Member {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "academic_title_id")
     private AcademicTitle academicTitle;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "education_title_id")
     private EducationTitle educationTitle;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

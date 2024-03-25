@@ -42,7 +42,7 @@ public class Subject {
         int currentYear = Year.now().getValue();
 
         Optional<LectureSchedule> currentYearLectureSchedule = lectureSchedules.stream()
-                .filter(schedule -> schedule.getYear() == currentYear)
+                .filter(schedule -> schedule.getScheduleYear() == currentYear)
                 .findFirst();
 
         return currentYearLectureSchedule.orElse(null);

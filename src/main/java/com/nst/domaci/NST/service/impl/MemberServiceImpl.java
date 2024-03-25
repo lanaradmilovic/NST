@@ -26,24 +26,16 @@ public class MemberServiceImpl implements MemberService {
     private final ScientificFieldRepository scientificFieldRepository;
     private final EducationTitleRepository educationTitleRepository;
     private final AcademicTitleRepository academicTitleRepository;
-    private final AcademicTitleConverter academicTitleConverter;
-    private final ScientificFieldConverter scientificFieldConverter;
     private final AcademicTitleHistoryRepository academicTitleHistoryRepository;
-    private final SecretaryHistoryRepository secretaryHistoryRepository;
-    private final LeaderHistoryRepository leaderHistoryRepository;
 
-    public MemberServiceImpl(MemberConverter memberConverter, MemberRepository memberRepository, DepartmentRepository departmentRepository, ScientificFieldRepository scientificFieldRepository, EducationTitleRepository educationTitleRepository, AcademicTitleRepository academicTitleRepository, AcademicTitleConverter academicTitleConverter, ScientificFieldConverter scientificFieldConverter, AcademicTitleHistoryRepository academicTitleHistoryRepository, SecretaryHistoryRepository secretaryHistoryRepository, LeaderHistoryRepository leaderHistoryRepository) {
+    public MemberServiceImpl(MemberConverter memberConverter, MemberRepository memberRepository, DepartmentRepository departmentRepository, ScientificFieldRepository scientificFieldRepository, EducationTitleRepository educationTitleRepository, AcademicTitleRepository academicTitleRepository, AcademicTitleHistoryRepository academicTitleHistoryRepository) {
         this.memberConverter = memberConverter;
         this.memberRepository = memberRepository;
         this.departmentRepository = departmentRepository;
         this.scientificFieldRepository = scientificFieldRepository;
         this.educationTitleRepository = educationTitleRepository;
         this.academicTitleRepository = academicTitleRepository;
-        this.academicTitleConverter = academicTitleConverter;
-        this.scientificFieldConverter = scientificFieldConverter;
         this.academicTitleHistoryRepository = academicTitleHistoryRepository;
-        this.secretaryHistoryRepository = secretaryHistoryRepository;
-        this.leaderHistoryRepository = leaderHistoryRepository;
     }
 
     @Override

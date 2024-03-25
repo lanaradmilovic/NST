@@ -24,15 +24,13 @@ import java.util.stream.Collectors;
 public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final DepartmentConverter departmentConverter;
-    private final MemberConverter memberConverter;
     private final MemberRepository memberRepository;
     private final LeaderHistoryRepository leaderHistoryRepository;
     private final SecretaryHistoryRepository secretaryHistoryRepository;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentConverter departmentConverter, MemberConverter memberConverter, MemberRepository memberRepository, LeaderHistoryRepository leaderHistoryRepository, SecretaryHistoryRepository secretaryHistoryRepository) {
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentConverter departmentConverter, MemberRepository memberRepository, LeaderHistoryRepository leaderHistoryRepository, SecretaryHistoryRepository secretaryHistoryRepository) {
         this.departmentRepository = departmentRepository;
         this.departmentConverter = departmentConverter;
-        this.memberConverter = memberConverter;
         this.memberRepository = memberRepository;
         this.leaderHistoryRepository = leaderHistoryRepository;
         this.secretaryHistoryRepository = secretaryHistoryRepository;
@@ -103,13 +101,14 @@ public class DepartmentServiceImpl implements DepartmentService {
             currentLeader.setEndDate(LocalDate.now());
         }
         // Ensure that the member is not currently a secretary
-        if (secretaryHistoryRepository.findCurrentByMemberId(memberId) != null) {
+        if (secretaryHistoryRepository.findCurrentSecretaryByMemberId(memberId) != null) {
             throw new RoleConflictException("Cannot set leader to a member who is currently a secretary.");
         }
         // Ensure that the member is not a leader of a different department
-        if (leaderHistoryRepository.findCurrentByMemberId(memberId) != null) {
-            throw new RoleConflictException("Cannot set leader to a member who is currently a leader in another department.");
-        }
+        // nepotrebno jer member moze pripadati samo jednom departmentu
+//        if (leaderHistoryRepository.findCurrentLeaderByMemberId(memberId) != null) {
+//            throw new MemberNotInDepartmentException("Cannot set leader to a member who is currently a leader in another department.");
+//        }
         // member can't be leader of different department
 
         LeaderHistory leaderHistory = new LeaderHistory();
@@ -137,13 +136,13 @@ public class DepartmentServiceImpl implements DepartmentService {
             currentSecretary.setEndDate(LocalDate.now());
         }
         // Ensure that the member is not currently a leader
-        if (leaderHistoryRepository.findCurrentByMemberId(memberId) != null) {
+        if (leaderHistoryRepository.findCurrentLeaderByMemberId(memberId) != null) {
             throw new RoleConflictException("Cannot set secretary to a member who is currently a leader.");
         }
         // Ensure that the member is not currently a secretary in another department
-        if (secretaryHistoryRepository.findCurrentByMemberId(memberId) != null) {
-            throw new RoleConflictException("Cannot set secretary to a member who is currently a secretary in another department.");
-        }
+//        if (secretaryHistoryRepository.findCurrentSecretaryByMemberId(memberId) != null) {
+//            throw new MemberNotInDepartmentException("Cannot set secretary to a member who is currently a secretary in another department.");
+//        }
         SecretaryHistory secretaryHistory = new SecretaryHistory();
         secretaryHistory.setDepartment(department);
         secretaryHistory.setMember(member);

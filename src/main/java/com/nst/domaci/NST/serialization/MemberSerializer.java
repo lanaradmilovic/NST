@@ -3,7 +3,6 @@ package com.nst.domaci.NST.serialization;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.nst.domaci.NST.entity.AcademicTitle;
 import com.nst.domaci.NST.entity.AcademicTitleHistory;
 import com.nst.domaci.NST.entity.Engagement;
 import com.nst.domaci.NST.entity.Member;
@@ -43,7 +42,7 @@ public class MemberSerializer extends JsonSerializer<Member> {
             for (Engagement engagement : member.getEngagements()) {
                 jsonGenerator.writeStartObject();
                 jsonGenerator.writeNumberField("id", engagement.getId());
-                jsonGenerator.writeNumberField("year", engagement.getYear());
+                jsonGenerator.writeNumberField("year", engagement.getEngagementYear());
 
                 jsonGenerator.writeObjectFieldStart("subject");
                 jsonGenerator.writeStringField("name", engagement.getSubject().getName());

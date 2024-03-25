@@ -56,7 +56,7 @@ public class SubjectSerializer extends JsonSerializer<Subject> {
         if (schedule!=null){
             jsonGenerator.writeObjectFieldStart("schedule");
             jsonGenerator.writeNumberField("id", schedule.getId());
-            jsonGenerator.writeNumberField("year", schedule.getYear());
+            jsonGenerator.writeNumberField("year", schedule.getScheduleYear());
 
             if (schedule.getLectures()!=null && !schedule.getLectures().isEmpty()){
                 jsonGenerator.writeArrayFieldStart("lectures");

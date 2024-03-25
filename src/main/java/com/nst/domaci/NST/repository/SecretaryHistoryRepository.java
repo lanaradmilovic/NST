@@ -23,7 +23,7 @@ public interface SecretaryHistoryRepository extends JpaRepository<SecretaryHisto
     @Query("SELECT sh FROM SecretaryHistory sh " +
             "WHERE sh.member.id = :memberId " +
             "AND sh.endDate IS NULL")
-    SecretaryHistory findCurrentByMemberId(@Param("memberId") Long memberId);
+    SecretaryHistory findCurrentSecretaryByMemberId(@Param("memberId") Long memberId);
 
     @Query("SELECT sh FROM SecretaryHistory sh " +
             "WHERE sh.department.id = :departmentId " +

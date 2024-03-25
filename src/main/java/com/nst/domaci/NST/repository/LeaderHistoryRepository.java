@@ -24,7 +24,7 @@ public interface LeaderHistoryRepository extends JpaRepository<LeaderHistory, Lo
     @Query("SELECT lh FROM LeaderHistory lh " +
             "WHERE lh.member.id = :memberId " +
             "AND lh.endDate IS NULL")
-    LeaderHistory findCurrentByMemberId(@Param("memberId") Long memberId);
+    LeaderHistory findCurrentLeaderByMemberId(@Param("memberId") Long memberId);
 
     @Query("SELECT lh FROM LeaderHistory lh " +
             "WHERE lh.department.id = :departmentId " +
