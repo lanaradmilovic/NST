@@ -515,6 +515,31 @@ public void setSecretarySuccessTest() {
         Assertions.assertEquals(department.getCurrentSecretary(), member);
 
     }
+    @Test
+    public void setLeaderMemberNotFoundTest() {
+        Long departmentId = 1L;
+        Long memberId = 1L;
+
+        Mockito.when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(new Department()));
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> departmentService.setLeader(departmentId, memberId));
+        Mockito.verify(leaderHistoryRepository, Mockito.never()).findCurrentLeaderByDepartmentId(departmentId);
+        Mockito.verify(secretaryHistoryRepository, Mockito.never()).findCurrentSecretaryByMemberId(memberId);
+    }
+    @Test
+    public void setSecretaryMemberNotFoundTest() {
+        Long departmentId = 1L;
+        Long memberId = 1L;
+
+        Mockito.when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(new Department()));
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> departmentService.setSecretary(departmentId, memberId));
+        Mockito.verify(secretaryHistoryRepository, Mockito.never()).findCurrentSecretaryByDepartmentId(departmentId);
+        Mockito.verify(leaderHistoryRepository, Mockito.never()).findCurrentLeaderByMemberId(memberId);
+    }
+
 
 }
 

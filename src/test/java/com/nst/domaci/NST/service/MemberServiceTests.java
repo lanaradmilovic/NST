@@ -96,7 +96,7 @@ public class MemberServiceTests {
 
     @Test
     void deleteMemberIsNoLeaderAndSecretarySuccess() {
-        Long memberId=1L;
+        Long memberId = 1L;
 
         Member member = new Member();
         member.setId(memberId);
@@ -111,7 +111,7 @@ public class MemberServiceTests {
 
     @Test
     void testDeleteNotFound() {
-        Long memberId=1L;
+        Long memberId = 1L;
         Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
         Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.delete(1L));
     }
@@ -169,10 +169,11 @@ public class MemberServiceTests {
     void updateMemberLeaderChangeDepartmentFailureTest() {
         Long memberId = 1L;
         Long departmentId = 1L;
-        Long academicTitleId=1L;
+        Long academicTitleId = 1L;
 
         Long newDepartmentId = 2L;
         Department newDepartment = new Department();
+        Mockito.when(departmentRepository.findById(newDepartmentId)).thenReturn(Optional.of(newDepartment));
         newDepartment.setId(newDepartmentId);
 
         MemberDto memberDto = new MemberDto();
@@ -181,6 +182,7 @@ public class MemberServiceTests {
         memberDto.setAcademicTitleId(academicTitleId);
 
         Member member = new Member();
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         member.setId(memberId);
         AcademicTitle academicTitle = AcademicTitle.builder().id(academicTitleId).build();
         member.setAcademicTitle(academicTitle);
@@ -193,19 +195,18 @@ public class MemberServiceTests {
 
         member.setDepartment(oldDepartment);
 
-        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-        Mockito.when(departmentRepository.findById(newDepartmentId)).thenReturn(Optional.of(newDepartment));
-
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> memberService.update(memberDto));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> memberService.update(memberDto));
     }
+
     @Test
     void updateMemberSecretaryChangeDepartmentFailureTest() {
         Long memberId = 1L;
         Long departmentId = 1L;
-        Long academicTitleId=1L;
+        Long academicTitleId = 1L;
 
         Long newDepartmentId = 2L;
         Department newDepartment = new Department();
+        Mockito.when(departmentRepository.findById(newDepartmentId)).thenReturn(Optional.of(newDepartment));
         newDepartment.setId(newDepartmentId);
 
         MemberDto memberDto = new MemberDto();
@@ -214,6 +215,7 @@ public class MemberServiceTests {
         memberDto.setAcademicTitleId(academicTitleId);
 
         Member member = new Member();
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         member.setId(memberId);
         AcademicTitle academicTitle = AcademicTitle.builder().id(academicTitleId).build();
         member.setAcademicTitle(academicTitle);
@@ -226,10 +228,7 @@ public class MemberServiceTests {
 
         member.setDepartment(oldDepartment);
 
-        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-        Mockito.when(departmentRepository.findById(newDepartmentId)).thenReturn(Optional.of(newDepartment));
-
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> memberService.update(memberDto));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> memberService.update(memberDto));
     }
 
     @Test
@@ -255,14 +254,14 @@ public class MemberServiceTests {
         oldMember.setDepartment(department);
         Mockito.when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
 
-        Long academicTitleId=1L;
+        Long academicTitleId = 1L;
         // academic title not changed
         AcademicTitle academicTitle = AcademicTitle.builder().id(academicTitleId).build();
         Mockito.when(academicTitleRepository.findById(academicTitleId)).thenReturn(Optional.of(academicTitle));
         oldMember.setAcademicTitle(academicTitle);
         memberDto.setAcademicTitleId(academicTitleId);
 
-        Long scientificFieldId=1L;
+        Long scientificFieldId = 1L;
         Long educationTitleId = 1L;
         ScientificField scientificField = ScientificField.builder().id(scientificFieldId).build();
         EducationTitle educationTitle = EducationTitle.builder().id(educationTitleId).build();
@@ -285,6 +284,7 @@ public class MemberServiceTests {
         Assertions.assertEquals(resultDto.getLastName(), updated.getLastName());
         Assertions.assertEquals(resultDto.getAcademicTitleId(), updated.getAcademicTitle());
     }
+
     @Test
     public void updateMemberAcademicTitleChangedSuccessTest() {
         Long memberDtoId = 1L;
@@ -308,8 +308,8 @@ public class MemberServiceTests {
         oldMember.setDepartment(department);
         Mockito.when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
 
-        Long academicTitleId=1L;
-        Long newAcademicTitleId=2L;
+        Long academicTitleId = 1L;
+        Long newAcademicTitleId = 2L;
         // academic title not changed
         AcademicTitle academicTitle = AcademicTitle.builder().id(academicTitleId).build();
         oldMember.setAcademicTitle(academicTitle);
@@ -317,7 +317,7 @@ public class MemberServiceTests {
         Mockito.when(academicTitleRepository.findById(newAcademicTitleId)).thenReturn(Optional.of(academicTitle));
         memberDto.setAcademicTitleId(newAcademicTitleId);
 
-        Long scientificFieldId=1L;
+        Long scientificFieldId = 1L;
         Long educationTitleId = 1L;
         ScientificField scientificField = ScientificField.builder().id(scientificFieldId).build();
         EducationTitle educationTitle = EducationTitle.builder().id(educationTitleId).build();
@@ -363,7 +363,7 @@ public class MemberServiceTests {
     @Test
     public void updateNotFoundDepartmentTest() {
         Long departmentId = 1L;
-        Long memberId=1L;
+        Long memberId = 1L;
         MemberDto memberDto = new MemberDto();
         memberDto.setDepartmentId(departmentId);
         Member member = new Member();
@@ -385,6 +385,7 @@ public class MemberServiceTests {
 
         Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.save(memberDto));
     }
+
     @Test
     public void updateNotFoundAcademicTitleTest() {
         Long academicTitleId = 1L;
@@ -395,19 +396,10 @@ public class MemberServiceTests {
 
         Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.update(memberDto));
     }
-    @Test
-    public void saveNotFoundAcademicTitleTest() {
-        Long academicTitleId = 1L;
-        MemberDto memberDto = new MemberDto();
-        memberDto.setAcademicTitleId(academicTitleId);
 
-        Mockito.when(academicTitleRepository.findById(academicTitleId)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.save(memberDto));
-    }
     @Test
     public void updateNotFoundEducationTitleTest() {
-        Long educationTitleId= 1L;
+        Long educationTitleId = 1L;
         MemberDto memberDto = new MemberDto();
         memberDto.setEducationTitleId(educationTitleId);
 
@@ -415,95 +407,60 @@ public class MemberServiceTests {
 
         Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.update(memberDto));
     }
+
     @Test
-    public void saveNotFoundEducationTitleTest() {
-        Long educationTitleId= 1L;
+    public void updateAcademicTitleSuccess() {
+        // Prepare test data
+        Long memberId = 1L;
+        Long academicTitleId = 2L;
+        Long scientificFieldId = 3L;
+
         MemberDto memberDto = new MemberDto();
-        memberDto.setEducationTitleId(educationTitleId);
+        memberDto.setId(memberId);
 
-        Mockito.when(academicTitleRepository.findById(educationTitleId)).thenReturn(Optional.empty());
+        AcademicTitleDto newTitle = new AcademicTitleDto();
+        newTitle.setId(academicTitleId);
 
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.save(memberDto));
+        ScientificFieldDto newField = new ScientificFieldDto();
+        newField.setId(scientificFieldId);
+
+        Member oldMember = new Member();
+        oldMember.setId(memberId);
+
+        AcademicTitle academicTitle = new AcademicTitle();
+        academicTitle.setId(academicTitleId);
+
+        ScientificField scientificField = new ScientificField();
+        scientificField.setId(scientificFieldId);
+
+        Member updatedMember = new Member();
+        updatedMember.setId(memberId);
+        updatedMember.setAcademicTitle(academicTitle);
+        updatedMember.setScientificField(scientificField);
+
+        AcademicTitleHistory academicTitleHistory = new AcademicTitleHistory(); // Create a non-null instance
+
+        // Mock repository methods
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(oldMember));
+        Mockito.when(academicTitleRepository.findById(academicTitleId)).thenReturn(Optional.of(academicTitle));
+        Mockito.when(scientificFieldRepository.findById(scientificFieldId)).thenReturn(Optional.of(scientificField));
+        Mockito.when(memberRepository.save(oldMember)).thenReturn(updatedMember);
+        Mockito.when(academicTitleHistoryRepository.findCurrentAcademicTitleByMemberId(memberId)).thenReturn(academicTitleHistory); // Mock to return non-null
+
+        MemberDto resultDto = new MemberDto();
+        resultDto.setId(memberId);
+        Mockito.when(memberConverter.toDto(updatedMember)).thenReturn(resultDto);
+
+        // Call the service method
+        resultDto = memberService.updateAcademicTitle(memberDto, newTitle, newField);
+
+        // Assertions
+        Assertions.assertEquals(updatedMember.getId(), resultDto.getId());
+        Assertions.assertNotEquals(oldMember.getAcademicTitle().getId(), resultDto.getAcademicTitleId());
+        Assertions.assertNotEquals(oldMember.getScientificField().getId(), resultDto.getScientificFieldId());
+
     }
-    @Test
-    public void updateNotFoundScientificFieldTest() {
-        Long scientificFieldId = 1L;
-        MemberDto memberDto = new MemberDto();
-        memberDto.setScientificFieldId(scientificFieldId);
 
-        Mockito.when(academicTitleRepository.findById(scientificFieldId)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.update(memberDto));
-    }
-    @Test
-    public void saveNotFoundScientificFieldTest() {
-        Long scientificFieldId = 1L;
-        MemberDto memberDto = new MemberDto();
-        memberDto.setScientificFieldId(scientificFieldId);
-
-        Mockito.when(academicTitleRepository.findById(scientificFieldId)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.save(memberDto));
-    }
-
-@Test
-public void updateAcademicTitleSuccess() {
-    // Prepare test data
-    Long memberId = 1L;
-    Long academicTitleId = 2L;
-    Long scientificFieldId = 3L;
-
-    MemberDto memberDto = new MemberDto();
-    memberDto.setId(memberId);
-
-    AcademicTitleDto newTitle = new AcademicTitleDto();
-    newTitle.setId(academicTitleId);
-
-    ScientificFieldDto newField = new ScientificFieldDto();
-    newField.setId(scientificFieldId);
-
-    Member oldMember = new Member();
-    oldMember.setId(memberId);
-
-    AcademicTitle academicTitle = new AcademicTitle();
-    academicTitle.setId(academicTitleId);
-
-    ScientificField scientificField = new ScientificField();
-    scientificField.setId(scientificFieldId);
-
-    Member updatedMember = new Member();
-    updatedMember.setId(memberId);
-    updatedMember.setAcademicTitle(academicTitle);
-    updatedMember.setScientificField(scientificField);
-
-    AcademicTitleHistory academicTitleHistory = new AcademicTitleHistory(); // Create a non-null instance
-
-    // Mock repository methods
-    Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(oldMember));
-    Mockito.when(academicTitleRepository.findById(academicTitleId)).thenReturn(Optional.of(academicTitle));
-    Mockito.when(scientificFieldRepository.findById(scientificFieldId)).thenReturn(Optional.of(scientificField));
-    Mockito.when(memberRepository.save(oldMember)).thenReturn(updatedMember);
-    Mockito.when(academicTitleHistoryRepository.findCurrentAcademicTitleByMemberId(memberId)).thenReturn(academicTitleHistory); // Mock to return non-null
-
-    // Mock converter
-//    Mockito.when(memberConverter.toDto(updatedMember)).thenReturn(memberDto);
-
-    MemberDto resultDto = new MemberDto();
-    resultDto.setId(memberId);
-    Mockito.when(memberConverter.toDto(updatedMember)).thenReturn(resultDto);
-
-    // Call the service method
-    resultDto = memberService.updateAcademicTitle(memberDto, newTitle, newField);
-
-    // Assertions
-    Assertions.assertEquals(updatedMember.getId(), resultDto.getId());
-    Assertions.assertNotEquals(oldMember.getAcademicTitle().getId(), resultDto.getAcademicTitleId());
-    Assertions.assertNotEquals(oldMember.getScientificField().getId(), resultDto.getScientificFieldId());
-
-//    Assertions.assertEquals(academicTitle.getId(), resultDto.getAcademicTitleId()); // Verify that updated academic title matches the expected value
-//    Assertions.assertEquals(scientificField.getId(), resultDto.getScientificFieldId()); // Verify that updated scientific field matches the expected value
-
-}
     @Test
     public void updateAcademicTitleSameTitleTest() {
         Long memberId = 1L;
@@ -527,6 +484,7 @@ public void updateAcademicTitleSuccess() {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> memberService.updateAcademicTitle(memberDto, newTitle, newField));
     }
+
     @Test
     public void updateAcademicTitleNonExistentMemberTest() {
         // Prepare test data
@@ -606,5 +564,154 @@ public void updateAcademicTitleSuccess() {
         // Call the service method and assert for ResourceNotFoundException
         Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.updateAcademicTitle(memberDto, newTitle, newField));
     }
+
+    @Test
+    public void saveNotFoundAcademicTitleTest() {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setAcademicTitleId(1L);
+
+        Mockito.when(academicTitleRepository.findById(memberDto.getAcademicTitleId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.save(memberDto));
+        // Refactor lambda expression into a separate method
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> throwResourceNotFoundExceptionForAcademicTitle(memberDto));
+
+    }
+
+    @Test
+    public void saveNotFoundEducationTitleTest() {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setEducationTitleId(1L);
+
+        Mockito.when(educationTitleRepository.findById(memberDto.getEducationTitleId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.save(memberDto));
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> throwResourceNotFoundExceptionForEducationTitle(memberDto));
+
+    }
+
+    @Test
+    public void saveNotFoundScientificFieldTest() {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setScientificFieldId(1L);
+
+        Mockito.when(scientificFieldRepository.findById(memberDto.getScientificFieldId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.save(memberDto));
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> throwResourceNotFoundExceptionForScientificField(memberDto));
+
+    }
+
+    @Test
+    public void updateNotFoundAcademicTitleSecretaryTest() {
+        Long memberId = 1L;
+        MemberDto memberDto = new MemberDto();
+        memberDto.setId(memberId);
+
+        // non-existing academic title
+        Long academicTitleId = 2L;
+        memberDto.setAcademicTitleId(academicTitleId);
+
+        Member oldMember = new Member();
+        oldMember.setId(memberId);
+        AcademicTitle academicTitle = AcademicTitle.builder().id(1L).build();
+        oldMember.setAcademicTitle(academicTitle);
+        Department department = new Department();
+        department.setCurrentSecretary(oldMember);
+        oldMember.setDepartment(department);
+
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(oldMember));
+        Mockito.when(academicTitleRepository.findById(academicTitleId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.update(memberDto));
+        // Refactor lambda expression into a separate method
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> throwResourceNotFoundExceptionForAcademicTitle(memberDto));
+    }
+
+
+    @Test
+    public void updateNotFoundEducationTitleSecretaryTest() {
+        Long memberId = 1L;
+        MemberDto memberDto = new MemberDto();
+        memberDto.setId(memberId);
+
+        // non-existing education title
+        Long educationId = 1L;
+        memberDto.setEducationTitleId(educationId);
+        // non-existing academic title and scientific field
+        Long academicTitleId=1L;
+        Long scientificFieldId=1L;
+        memberDto.setAcademicTitleId(academicTitleId);
+        memberDto.setScientificFieldId(scientificFieldId);
+
+
+        Member oldMember = new Member();
+        oldMember.setId(memberId);
+        AcademicTitle academicTitle = AcademicTitle.builder().id(2L).build();
+        EducationTitle educationTitle = EducationTitle.builder().id(2L).build();
+        oldMember.setEducationTitle(educationTitle);
+        oldMember.setAcademicTitle(academicTitle);
+        Department department = new Department();
+        department.setCurrentSecretary(oldMember);
+        oldMember.setDepartment(department);
+
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(oldMember));
+        Mockito.when(educationTitleRepository.findById(memberDto.getEducationTitleId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.update(memberDto));
+        // Refactor lambda expression into a separate method
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> throwResourceNotFoundExceptionForEducationTitle(memberDto));
+
+    }
+
+
+    @Test
+    public void updateNotFoundScientificFieldSecretaryTest() {
+        Long memberId = 1L;
+        MemberDto memberDto = new MemberDto();
+        memberDto.setId(memberId);
+
+        // non-existing academic title, education title and scientific field
+        Long educationId = 1L;
+        memberDto.setEducationTitleId(educationId);
+        Long academicTitleId=1L;
+        Long scientificFieldId=1L;
+        memberDto.setAcademicTitleId(academicTitleId);
+        memberDto.setScientificFieldId(scientificFieldId);
+
+        memberDto.setScientificFieldId(1L);
+
+        Member oldMember = new Member();
+        oldMember.setId(memberId);
+        AcademicTitle academicTitle = AcademicTitle.builder().id(2L).build();
+        oldMember.setAcademicTitle(academicTitle);
+        Department department = new Department();
+        department.setCurrentSecretary(oldMember);
+        oldMember.setDepartment(department);
+
+        Mockito.when(memberRepository.findById(memberId)).thenReturn(Optional.of(oldMember));
+        Mockito.when(scientificFieldRepository.findById(memberDto.getScientificFieldId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> memberService.update(memberDto));
+        // Refactor lambda expression into a separate method
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> throwResourceNotFoundExceptionForScientificField(memberDto));
+
+    }
+    // Method to throw ResourceNotFoundException for academic title
+    private void throwResourceNotFoundExceptionForAcademicTitle(MemberDto memberDto) {
+        throw new ResourceNotFoundException("AcademicTitle with ID " + memberDto.getAcademicTitleId() + " not found.");
+    }
+
+    // Method to throw ResourceNotFoundException for scientific field
+    private void throwResourceNotFoundExceptionForScientificField(MemberDto memberDto) {
+        throw new ResourceNotFoundException("ScientificField with ID " + memberDto.getScientificFieldId() + " not found.");
+    }
+
+    // Method to throw ResourceNotFoundException for education title
+    private void throwResourceNotFoundExceptionForEducationTitle(MemberDto memberDto) {
+        throw new ResourceNotFoundException("EducationTitle with ID " + memberDto.getEducationTitleId() + " not found.");
+    }
+
+
 
 }
