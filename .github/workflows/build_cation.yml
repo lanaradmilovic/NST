@@ -7,12 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: liquibase-github-actions/update@v4.26.0
         with:
           url: ${{ secrets.DATABASE_URL }}
           username: ${{ secrets.DATABASE_USERNAME }}
           password: ${{ secrets.DATABASE_PASSWORD }}
+          changelogFile: src/main/resources/liquibase/db-changelog-master.xml
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
