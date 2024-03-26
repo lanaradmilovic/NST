@@ -1,6 +1,6 @@
 CREATE TABLE engagement (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    year BIGINT,
+    engagement_year BIGINT,
     member_id BIGINT,
     subject_id BIGINT,
     teaching_form VARBINARY(255),

@@ -41,7 +41,7 @@ public class Department {
     private Member currentSecretary;
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Subject> subjects;
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<LeaderHistory> leaderHistories;
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<SecretaryHistory> secretaryHistories;
