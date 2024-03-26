@@ -4,10 +4,11 @@ import com.nst.domaci.NST.entity.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
-@Disabled
+@ActiveProfiles("test")
 @SpringBootTest
 public class MemberRepositoryTests {
 
