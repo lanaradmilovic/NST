@@ -1,18 +1,25 @@
 name: Liquibase Update
-
 on:
   push:
     branches:
       - master
-
 jobs:
   liquibase_update:
     name: Liquibase Update
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: lana
+          MYSQL_DATABASE: nst24
+          MYSQL_USER: ${{ secrets.DATABASE_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        ports:
+          - 3306:3306
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
       - name: Run Liquibase Update
         uses: liquibase/liquibase-github-action@v7
         with:
