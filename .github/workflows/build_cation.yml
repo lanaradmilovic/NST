@@ -8,22 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # Setup Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'oracle'
           java-version: '17'
-
-      # Build with Maven
       - name: Build with Maven
         run: mvn clean install
-
-      # Connect to Liquibase with database credentials
       - name: Run Liquibase Migrations
         uses: liquibase-github-actions/connect@v4.26.0
         with:
           url: ${{ secrets.DATABASE_URL }}
           username: ${{ secrets.DATABASE_USERNAME }}
           password: ${{ secrets.DATABASE_PASSWORD }}
+
