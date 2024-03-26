@@ -2,10 +2,7 @@ name: Run Maven Clean Test on Push
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - master
+      - test
 jobs:
   build:
     runs-on: ${{ matrix.os }}
