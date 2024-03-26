@@ -7,7 +7,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+      - uses: liquibase-github-actions/update@v4.26.0
+        with:
+          url: ${{ secrets.DATABASE_URL }}
+          username: ${{ secrets.DATABASE_USERNAME }}
+          password: ${{ secrets.DATABASE_PASSWORD }}
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -15,10 +20,5 @@ jobs:
           java-version: '17'
       - name: Build with Maven
         run: mvn clean install
-      - name: Run Liquibase Migrations
-        uses: liquibase-github-actions/connect@v4.26.0
-        with:
-          url: ${{ secrets.DATABASE_URL }}
-          username: ${{ secrets.DATABASE_USERNAME }}
-          password: ${{ secrets.DATABASE_PASSWORD }}
+
 
