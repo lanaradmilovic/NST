@@ -1,17 +1,37 @@
-name: GitHub Action Start
-on: [push]
+name: GitHub Workflow Initiation
+
+on:
+  push:
+    branches:
+      - master
+
 jobs:
-  Start:
+  start:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "This is automatically triggered job by ${{ github.event_name }}"
-      - run: echo "OS is ${{ runner.os }}"
-      - run: echo "URL is ${{ vars.URL }}"
-      - run: echo "Branch is ${{ github.ref }} on repository ${{ github.repository }}"
+      - name: Display event trigger
+        run: |
+          echo "This job was automatically triggered by ${{ github.event_name }}"
+
+      - name: Display operating system
+        run: |
+          echo "Operating System: ${{ runner.os }}"
+
+      - name: Display repository URL
+        run: |
+          echo "Repository URL: https://github.com/${{ github.repository }}"
+
       - name: Checkout repository code
         uses: actions/checkout@v4
-      - run: echo "The repo ${{ github.repository }} has been cloned. "
+
+      - name: Display cloned repository
+        run: |
+          echo "The repository ${{ github.repository }} has been successfully cloned."
+
       - name: List files in the repository
         run: |
           ls -l ${{ github.workspace }}
-      - run: echo "Job status is ${{ job.status }}"
+
+      - name: Display job status
+        run: |
+          echo "Job status is ${{ job.status }}"
