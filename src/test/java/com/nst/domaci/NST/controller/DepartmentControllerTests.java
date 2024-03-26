@@ -32,7 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @WebMvcTest(DepartmentController.class)
 public class DepartmentControllerTests {
     @Autowired
