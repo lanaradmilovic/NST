@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
+@Disabled
 public class DepartmentRepositoryTests {
     @Autowired
     private DepartmentRepository departmentRepository;

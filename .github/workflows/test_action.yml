@@ -1,4 +1,4 @@
-name: Run Maven Clean Install on Push or Pull Request
+name: Run Maven Clean Test on Push
 on:
   push:
     branches:
@@ -20,5 +20,5 @@ jobs:
         with:
           distribution: 'oracle'
           java-version: '17'
-      - name: Build with maven
-        run: mvn clean install
+      - name: Test with maven
+        run: mvn clean test
