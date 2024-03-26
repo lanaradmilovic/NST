@@ -1,4 +1,4 @@
-name: Build and Test Spring Application
+name: Run Maven Clean Install on Push
 on:
   push:
     branches:
