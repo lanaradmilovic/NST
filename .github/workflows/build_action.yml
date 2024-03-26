@@ -12,7 +12,6 @@ jobs:
         with:
           changelogFile: src/main/resources/liquibase/db-changelog-master.xml
           url: ${{ secrets.DATABASE_URL }}
-          driver: com.mysql
           password: ${{ secrets.DATABASE_PASSWORD }}
           username: ${{ secrets.DATABASE_USERNAME }}
       - name: Setup Java
