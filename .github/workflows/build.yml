@@ -1,0 +1,23 @@
+name: Run Maven Clean Install with Liquibase
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: liquibase-github-actions/update@v4.26.0
+        with:
+          changelogFile: src/main/resources/liquibase/db-changelog-master.xml
+          url: ${{ secrets.DATABASE_URL }}
+          password: ${{ secrets.DATABASE_PASSWORD }}
+          username: ${{ secrets.DATABASE_USERNAME }}
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+      - name: Build with Maven
+        run: mvn clean install
