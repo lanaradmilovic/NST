@@ -20,6 +20,8 @@ import java.util.Set;
 @Table
 @JsonSerialize(using = EngagementSerializer.class)
 public class Engagement {
+    @OneToMany(mappedBy = "engagement", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Lecture> lectures;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +35,5 @@ public class Engagement {
     private Subject subject;
     @Enumerated(EnumType.STRING)
     private Set<TeachingForm> teachingForm;
-    @OneToMany(mappedBy = "engagement", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Lecture> lectures;
+
 }

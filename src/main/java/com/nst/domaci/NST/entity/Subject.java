@@ -33,9 +33,9 @@ public class Subject {
     private Department department;
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Engagement> engagements;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "subject", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "subject", cascade = CascadeType.REMOVE)
     private Fund fund;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subject", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subject", cascade = CascadeType.REMOVE)
     private List<LectureSchedule> lectureSchedules;
 
     public LectureSchedule getLectureScheduleCurrentYear() {

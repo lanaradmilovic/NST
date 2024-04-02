@@ -8,7 +8,6 @@ import com.nst.domaci.NST.exception.IllegalArgumentException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.repository.*;
 import com.nst.domaci.NST.service.MemberService;
-import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,7 +81,6 @@ public class MemberServiceImpl implements MemberService {
         if (member.equals(currentSecretary)) {
             throw new IllegalArgumentException("This member is currently secretary at department with ID = : " + member.getDepartment().getId());
         }
-
         memberRepository.deleteById(id);
     }
 

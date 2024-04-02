@@ -19,6 +19,15 @@ import java.util.List;
 @JsonSerialize(using = MemberSerializer.class)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<AcademicTitleHistory> academicTitleHistories;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Engagement> engagements;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<SecretaryHistory> secretaryHistories;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<LeaderHistory> leaderHistories;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -35,23 +44,15 @@ public class Member {
     @JoinColumn(name = "academic_title_id")
     private AcademicTitle academicTitle;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "education_title_id")
-    private EducationTitle educationTitle;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "scientific_field_id")
     private ScientificField scientificField;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "education_title_id")
+    private EducationTitle educationTitle;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AcademicTitleHistory> academicTitleHistories;
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Engagement> engagements;
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<SecretaryHistory> secretaryHistories;
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<LeaderHistory> leaderHistories;
 
     @OneToOne(mappedBy = "currentLeader", fetch = FetchType.LAZY)
     private Department leaderDepartment;

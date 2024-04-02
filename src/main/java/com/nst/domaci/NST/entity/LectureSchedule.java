@@ -28,6 +28,6 @@ public class LectureSchedule {
     @NotNull
     @JoinColumn(name = "schedule_year")
     private int scheduleYear;
-    @OneToMany(mappedBy = "lectureSchedule",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "lectureSchedule",cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Lecture> lectures;
 }

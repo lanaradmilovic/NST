@@ -17,9 +17,9 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AcademicTitle {
     @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Member> members;
-    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<AcademicTitleHistory> academicTitleHistories;
+    @OneToMany(mappedBy = "academicTitle", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Member> members;
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

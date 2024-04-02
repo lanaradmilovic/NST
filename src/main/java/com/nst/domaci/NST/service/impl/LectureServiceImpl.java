@@ -11,11 +11,13 @@ import com.nst.domaci.NST.exception.YearMismatch;
 import com.nst.domaci.NST.repository.*;
 import com.nst.domaci.NST.service.LectureService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class LectureServiceImpl implements LectureService {
 
     private final LectureRepository lectureRepository;
