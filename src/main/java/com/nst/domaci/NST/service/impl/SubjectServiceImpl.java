@@ -15,12 +15,14 @@ import com.nst.domaci.NST.repository.FundRepository;
 import com.nst.domaci.NST.repository.SubjectRepository;
 import com.nst.domaci.NST.service.SubjectService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class SubjectServiceImpl implements SubjectService {
     private final SubjectConverter subjectConverter;
     private final SubjectRepository subjectRepository;

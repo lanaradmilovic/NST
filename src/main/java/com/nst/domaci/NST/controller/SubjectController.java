@@ -5,6 +5,7 @@ import com.nst.domaci.NST.dto.FundDto;
 import com.nst.domaci.NST.dto.SubjectDto;
 import com.nst.domaci.NST.entity.Fund;
 import com.nst.domaci.NST.entity.Subject;
+import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.impl.SubjectServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,15 +62,19 @@ public class SubjectController {
     @Operation(summary = "Delete Subject entity by id.")
     @DeleteMapping("/subjects/{id}")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Long id) {
-        subjectService.delete(id);
-        return new ResponseEntity<>("Subject with ID = " + id + " removed.", HttpStatus.OK);
+        try {
+            subjectService.delete(id);
+            return new ResponseEntity<>("Subject with ID = " + id + " removed.", HttpStatus.OK);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
+
     @Operation(summary = "Set fund to Subject.")
     @PostMapping("/subjects/{subjectId}/fund")
     public ResponseEntity<?> setFund(@PathVariable(value = "subjectId") Long subjectId, @RequestBody FundDto fundDto) {
         return new ResponseEntity<>(subjectService.saveFund(subjectId, fundDto), HttpStatus.CREATED);
     }
-
 
 
 }

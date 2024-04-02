@@ -2,6 +2,7 @@ package com.nst.domaci.NST.controller;
 
 import com.nst.domaci.NST.dto.DepartmentDto;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
+import com.nst.domaci.NST.exception.MemberNotInDepartmentException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.impl.DepartmentServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,12 +77,8 @@ public class DepartmentController {
     public ResponseEntity<DepartmentDto> setDepartmentLeader(
             @PathVariable("departmentId") Long departmentId,
             @PathVariable("memberId") Long memberId) {
-        try {
-            departmentService.setLeader(departmentId, memberId);
-            return ResponseEntity.ok().build();
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        departmentService.setLeader(departmentId, memberId);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Set Department Secretary.",
@@ -90,12 +87,8 @@ public class DepartmentController {
     public ResponseEntity<?> setDepartmentSecretary(
             @PathVariable("departmentId") Long departmentId,
             @PathVariable("memberId") Long memberId) {
-        try {
-            departmentService.setSecretary(departmentId, memberId);
-            return ResponseEntity.ok().build();
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        departmentService.setSecretary(departmentId, memberId);
+        return ResponseEntity.ok().build();
     }
 
 }
