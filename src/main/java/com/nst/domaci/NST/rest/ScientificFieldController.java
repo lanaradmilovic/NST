@@ -1,4 +1,4 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
 import com.nst.domaci.NST.dto.ScientificFieldDto;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;

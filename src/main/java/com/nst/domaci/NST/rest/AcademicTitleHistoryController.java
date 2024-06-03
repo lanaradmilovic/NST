@@ -1,4 +1,4 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
 import com.nst.domaci.NST.dto.AcademicTitleHistoryDto;
 import com.nst.domaci.NST.service.impl.AcademicTitleHistoryServiceImpl;

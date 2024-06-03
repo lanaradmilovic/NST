@@ -1,8 +1,7 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
 import com.nst.domaci.NST.dto.DepartmentDto;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
-import com.nst.domaci.NST.exception.MemberNotInDepartmentException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.impl.DepartmentServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,4 +1,4 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

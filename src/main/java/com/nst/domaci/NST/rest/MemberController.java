@@ -1,8 +1,6 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
-import com.nst.domaci.NST.converter.impl.AcademicTitleConverter;
 import com.nst.domaci.NST.converter.impl.MemberConverter;
-import com.nst.domaci.NST.converter.impl.ScientificFieldConverter;
 import com.nst.domaci.NST.dto.*;
 import com.nst.domaci.NST.entity.Member;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;

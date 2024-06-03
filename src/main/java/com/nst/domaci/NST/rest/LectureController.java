@@ -1,9 +1,8 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
 import com.nst.domaci.NST.dto.LectureDto;
 import com.nst.domaci.NST.entity.Lecture;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
-import com.nst.domaci.NST.service.LectureService;
 import com.nst.domaci.NST.service.impl.LectureServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

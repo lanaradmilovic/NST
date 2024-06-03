@@ -1,12 +1,10 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nst.domaci.NST.dto.AcademicTitleDto;
 import com.nst.domaci.NST.dto.DepartmentDto;
-import com.nst.domaci.NST.dto.MemberDto;
 import com.nst.domaci.NST.entity.Department;
 import com.nst.domaci.NST.exception.EntityAlreadyExistsException;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
@@ -31,12 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @WebMvcTest(DepartmentController.class)
-public class DepartmentControllerTests {
+public class DepartmentMvcControllerTests {
     @Autowired
     private MockMvc mockMvc;
 

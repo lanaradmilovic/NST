@@ -1,10 +1,7 @@
-package com.nst.domaci.NST.controller;
+package com.nst.domaci.NST.rest;
 
-import com.nst.domaci.NST.converter.impl.SubjectConverter;
 import com.nst.domaci.NST.dto.FundDto;
 import com.nst.domaci.NST.dto.SubjectDto;
-import com.nst.domaci.NST.entity.Fund;
-import com.nst.domaci.NST.entity.Subject;
 import com.nst.domaci.NST.exception.ResourceNotFoundException;
 import com.nst.domaci.NST.service.impl.SubjectServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
