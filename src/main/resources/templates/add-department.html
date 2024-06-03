@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Department</title>
+    <!-- Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-4" >
+        <h3>Add Department</h3>
+        <form action="#" th:action="@{/mvc/departments/save}" method="post" th:object="${department}">
+            Name:<input type="text" th:field="*{name}" class="form-control mb-4 w-25"/>
+            Short name:<input type="text" th:field="*{shortName}" class="form-control mb-4 w-25"/>
+<!--            Current leader:<input type="text" th:field="*{currentLeader}" class="form-control mb-4 w-25"/>-->
+<!--            Current secretary:<input type="text" th:field="*{currentSecretary}" class="form-control mb-4 w-25"/>-->
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                <span th:text="${errorMessage}"></span>
+            </div>
+            <button type="submit" class="btn btn-success btn-sm">Add</button>
+            <a th:href="@{/mvc/departments/list}" class="btn btn-secondary btn-sm">Cancel</a>
+            <br><br>
+        </form>
+    </div>
+</body>
+</html>
